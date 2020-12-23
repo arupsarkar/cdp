@@ -1,0 +1,60 @@
+<template>
+    <div class="spinner">
+        <template if:true={isLoading}>
+             <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+             </lightning-spinner>
+        </template>
+    </div>
+    
+    
+
+    <lightning-card title="All Individuals" icon-name="standard:task">
+        <!-- Error Message -->
+        <div if:true={errorMsg} style="margin-left: 3%;">
+            <p style="color: red;">{errorMsg}</p>
+        </div>
+
+        <!-- Search -->
+        <lightning-layout multiple-rows="true" vertical-align="end">
+            <lightning-layout-item size="12" small-device-size="10" medium-device-size="8" large-device-size="6" padding="around-small">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <lightning-input 
+                            type="text" 
+                            label="Enter Last Name" 
+                            onchange={handleIndividualName}>
+                        </lightning-input>
+                        <lightning-input 
+                            type="text" 
+                            label="Enter First Name" 
+                            onchange={handleIndividualFirstName}>
+                        </lightning-input>                        
+                    </div>
+
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" small-device-size="2" medium-device-size="2" large-device-size="2" padding="around-small">
+                <lightning-button 
+                    label="Search" 
+                    variant="brand" 
+                    onclick={handleSearch}>>
+                </lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <!-- Data table -->
+        <div class="slds-m-around_medium" if:true={individualList}>
+            <lightning-datatable
+                key-field="Id"
+                show-row-number-column 
+                hide-checkbox-column                 
+                data={individualList}
+                columns={columns}
+                onrowaction={handleRowAction}>
+            </lightning-datatable>
+        </div>
+        <div class="slds-m-around_medium" if:true={error}>
+            <p>Sorry there was an error</p>
+        </div>        
+    </lightning-card>
+</template>
