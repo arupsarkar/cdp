@@ -1,7 +1,22 @@
 <template>
-    <lightning-card title="Hello">
-        <lightning-button label="New" slot="actions"></lightning-button>
-        <p class="slds-p-horizontal_small">Card Body (custom component)</p>
-        <p slot="footer">Card Footer</p>
+    <c-unified-customer oncustomerselected={customerSelected}></c-unified-customer>
+    <lightning-card 
+        title="Privacy Preferences" 
+        icon-name="custom:custom67">
+        <div class="spinner">
+            <template if:true={isLoading}>
+                 <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+                 </lightning-spinner>
+            </template>
+        </div>        
+        <!-- <lightning-button label="New" slot="actions"></lightning-button> -->
+        <p class="slds-p-horizontal_small">Customer Identifiers</p>
+        <p class="slds-p-horizontal_small">Address Line 1 : {addressLine1}</p>
+        <p class="slds-p-horizontal_small">Address Line 2 : {addressLine2}</p>
+        <p class="slds-p-horizontal_small">City : {city}</p>
+        <p class="slds-p-horizontal_small">State : {state}</p>
+        <p class="slds-p-horizontal_small">Postal Code : {postalCode}</p>
+        <p class="slds-p-horizontal_small">Country : {country}</p>
+        <p slot="footer">Showing data for Id : {customerId}</p>
     </lightning-card>
 </template>
