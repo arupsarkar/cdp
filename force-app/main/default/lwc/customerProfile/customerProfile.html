@@ -1,0 +1,118 @@
+<template>
+    <div class="slds-page-header slds-page-header_record-home">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-standard-opportunity">
+                            <svg class="slds-icon slds-page-header__icon" aria-hidden="true">
+                                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
+                            </svg>
+                        </span>
+                    </div>
+                <div class="slds-media__body">
+            <div class="slds-page-header__name">
+            <div class="slds-page-header__name-title">
+                <h1>
+                    <span>Customer</span>
+                    <span class="slds-page-header__title slds-truncate" title={ParentMessage.FirstName}>{ParentMessage.FirstName} {ParentMessage.LastName}</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    </div>
+    </div>
+
+    <div class="slds-page-header__row slds-page-header__row_gutters">
+        <div class="slds-page-header__col-details">
+            <ul class="slds-page-header__detail-row">
+                <li class="slds-page-header__detail-block">
+                    <div class="slds-text-title slds-truncate" title="Field 1">Unified Individual ID</div>
+                    <div class="slds-truncate" title="Unified Individual Id">{ParentMessage.Id}</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>
+
+    <!-- <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none"> -->
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col">
+            <lightning-card  variant="Narrow"  title="Lifetime Value" icon-name="custom:custom66">
+            </lightning-card>
+        </div>
+
+        <div class="slds-col">
+            <lightning-card  variant="Narrow"  title="Loyalty Profile" icon-name="custom:custom68">
+            </lightning-card>
+        </div>
+
+        <div class="slds-col">
+            <!-- Customer Preferences -->
+            <lightning-card  variant="Narrow"  title="Customer Preferences" icon-name="standard:account">
+                        <lightning-layout>
+                            <lightning-layout-item padding="around-small">
+                                <div class="slds-text-align_left">
+                                    <div class="slds-text-heading_medium">
+                                        <p class="slds-p-horizontal_small">
+                                            <b>Contact Point</b>
+                                        </p>        
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+
+                            <lightning-layout-item padding="around-small">
+                                <div class="slds-text-align_right">
+                                    <div class="slds-text-heading_medium">
+                                        <p class="slds-p-horizontal_small">
+                                            <b>Status</b>
+                                        </p>        
+                                    </div>
+                                </div>                            
+                            </lightning-layout-item>
+                        </lightning-layout>
+
+                        <lightning-layout>
+                            <lightning-layout-item padding="around-small">
+                                <p class="slds-p-horizontal_small">{ParentMessage.Phone}</p>        
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small">
+                                <div class="slds-text-align--right">
+                                    <p class="slds-p-horizontal_small" style="text-align:right;">Opt-In</p>
+                                </div>
+                            </lightning-layout-item> 
+                        </lightning-layout>
+
+                        <lightning-layout>
+                            <lightning-layout-item padding="around-small">
+                                <p class="slds-p-horizontal_small">{ParentMessage.Email}</p>        
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small">
+                                <div class="slds-text-align--right">
+                                    <p class="slds-p-horizontal_small" style="text-align:right;">Opt-In</p>
+                                </div>
+                            </lightning-layout-item>                        
+                        </lightning-layout>                    
+
+                        <lightning-layout>
+                            <lightning-layout-item padding="around-small">
+                                <p class="slds-p-horizontal_small">{ParentMessage.Address1}</p>
+                                <p class="slds-p-horizontal_small">{ParentMessage.Address2}</p>
+                                <p class="slds-p-horizontal_small">{ParentMessage.City}</p>
+                                <p class="slds-p-horizontal_small">{ParentMessage.State}</p>
+                                <p class="slds-p-horizontal_small">{ParentMessage.PostalCode}</p>
+                                <p class="slds-p-horizontal_small">{ParentMessage.Country}</p>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small">
+                                <p class="slds-p-horizontal_small" style="text-align:right;">Opt-In</p>        
+                            </lightning-layout-item>                        
+                        </lightning-layout>
+
+            </lightning-card>
+        </div>        
+
+    </div>
+
+</template>

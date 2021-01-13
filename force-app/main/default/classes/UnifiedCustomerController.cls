@@ -42,7 +42,12 @@ public with sharing class UnifiedCustomerController {
                         'SELECT+Id__c+,+FirstName__c+,+LastName__c+FROM+UnifiedIndividual__dlm+WHERE+LastName__c+!=+null' +
                         '+LIMIT+5';
         records = getResults(urlCB);
-        return records;
+        if(!records.isEmpty()) {
+            return records;
+        }else {
+            return null;
+        }
+        
     }
 
 

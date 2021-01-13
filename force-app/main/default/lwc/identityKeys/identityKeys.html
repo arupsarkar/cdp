@@ -1,7 +1,7 @@
 <template>
     <c-unified-customer oncustomerselected={customerSelected}></c-unified-customer>
     <lightning-card 
-        title="Privacy Preferences" 
+        title="Customer Identifiers" 
         icon-name="custom:custom67">
         <div class="spinner">
             <template if:true={isLoading}>
@@ -17,6 +17,47 @@
         <p class="slds-p-horizontal_small">State : {state}</p>
         <p class="slds-p-horizontal_small">Postal Code : {postalCode}</p>
         <p class="slds-p-horizontal_small">Country : {country}</p>
-        <p slot="footer">Showing data for Id : {customerId}</p>
+        <lightning-button 
+            variant="brand-outline" 
+            label="C360 ->" 
+            title="Primary action with lighter look" 
+            onclick={navigatetoDetails} 
+            class="slds-var-m-around_medium">
+        </lightning-button>        
+        <footer class="slds-card__footer">
+            <div>
+                <lightning-layout>
+                    <lightning-layout-item padding="around-small">
+                        <lightning-button 
+                            variant="brand-outline" 
+                            label="Subscribe" 
+                            title="Subscribe to Messaging Channel" 
+                            onclick={subscribeMC} 
+                            class="slds-var-m-around_medium">
+                        </lightning-button>  
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small">
+                        <lightning-button 
+                            variant="brand-outline" 
+                            label="Publish" 
+                            title="Publish Message to Messaging Channel" 
+                            onclick={publishMC} 
+                            class="slds-var-m-around_medium">
+                        </lightning-button>  
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small">
+                        <lightning-button 
+                            variant="brand-outline" 
+                            label="UnSubscribe" 
+                            title="Un Subscribe to Messaging Channel" 
+                            onclick={unsubscribeMC} 
+                            class="slds-var-m-around_medium">
+                        </lightning-button>                          
+                    </lightning-layout-item>        
+                </lightning-layout>
+            </div>
+        </footer>              
+        <p slot="footer">Showing data for Id : {customerId}</p>        
     </lightning-card>
+
 </template>

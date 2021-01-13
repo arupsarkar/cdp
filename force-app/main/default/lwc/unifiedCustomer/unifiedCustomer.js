@@ -67,8 +67,9 @@ export default class UnifiedCustomer extends LightningElement {
 
         console.log('>>> record : ', row.Id);
         this.record = row;
+        console.log('this.record firstname : ', this.record.FirstName);
         // Creates the event with the unified customer ID data.
-        const selectedEvent = new CustomEvent('customerselected', { detail: this.record.Id });
+        const selectedEvent = new CustomEvent('customerselected', { detail: this.record });
         // Dispatches the event.
         this.dispatchEvent(selectedEvent);        
     }    
