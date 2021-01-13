@@ -1,6 +1,12 @@
 <template>
     <c-unified-customer oncustomerselected={customerSelected}></c-unified-customer>
-    <lightning-card 
+    <div class="spinner">
+        <template if:true={isLoading}>
+             <lightning-spinner alternative-text="Loading" variant="brand" size="large">
+             </lightning-spinner>
+        </template>
+    </div>            
+    <!-- <lightning-card 
         title="Customer Identifiers" 
         icon-name="custom:custom67">
         <div class="spinner">
@@ -9,7 +15,6 @@
                  </lightning-spinner>
             </template>
         </div>        
-        <!-- <lightning-button label="New" slot="actions"></lightning-button> -->
         <p class="slds-p-horizontal_small">Customer Identifiers</p>
         <p class="slds-p-horizontal_small">Address Line 1 : {addressLine1}</p>
         <p class="slds-p-horizontal_small">Address Line 2 : {addressLine2}</p>
@@ -49,7 +54,7 @@
                         <lightning-button 
                             variant="brand-outline" 
                             label="UnSubscribe" 
-                            title="Un Subscribe to Messaging Channel" 
+                            title="UnSubscribe to Messaging Channel" 
                             onclick={unsubscribeMC} 
                             class="slds-var-m-around_medium">
                         </lightning-button>                          
@@ -58,6 +63,6 @@
             </div>
         </footer>              
         <p slot="footer">Showing data for Id : {customerId}</p>        
-    </lightning-card>
+    </lightning-card> -->
 
 </template>

@@ -60,6 +60,7 @@ export default class IdentityKeys extends NavigationMixin(LightningElement) {
                     );
             
             console.log('customer record ', JSON.stringify(this.customerRecord));
+            this.navigatetoDetails();
 
         })
         .catch((error) => {

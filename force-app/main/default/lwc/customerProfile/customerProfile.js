@@ -18,6 +18,7 @@ export default class CustomerProfile extends LightningElement {
     @track customerRecord = '';
 
     connectedCallback() {
+        console.log('connected callback initiated ...', this.ParentMessage.Id);
         this.subscribeMC();
     }    
     
