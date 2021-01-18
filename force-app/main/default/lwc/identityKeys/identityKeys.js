@@ -55,8 +55,10 @@ export default class IdentityKeys extends NavigationMixin(LightningElement) {
             this.customerRecord = JSON.parse(this.createJSONPayLoad(
                         event.detail.Id, event.detail.FirstName, 
                         event.detail.LastName, 
-                        this.addressLine1, this.addressLine2, this.city, this.state, this.postalCode, this.country, 
-                        event.detail.EmailAddress, event.detail.Telephone)
+                        this.addressLine1, this.addressLine2, this.city, 
+                        this.state, this.postalCode, this.country, 
+                        event.detail.EmailAddress, event.detail.Telephone,
+                        event.detail.LoyaltyPoints, event.detail.LoyaltyStatus)
                     );
             
             console.log('customer record ', JSON.stringify(this.customerRecord));
@@ -138,7 +140,8 @@ export default class IdentityKeys extends NavigationMixin(LightningElement) {
         releaseMessageContext(this.context);
     }
     
-    createJSONPayLoad(id, firstname, lastname, addr1, addr2, city, state, postalcode, country, email, phone ) {
+    createJSONPayLoad(id, firstname, lastname, addr1, addr2, city, state, postalcode, 
+                        country, email, phone, LoyaltyStatus, LoyaltyPoints ) {
         let customer = new Object();
         customer.Id = id;
         customer.FirstName = firstname;
@@ -151,6 +154,8 @@ export default class IdentityKeys extends NavigationMixin(LightningElement) {
         customer.Country = country;
         customer.Email = email;
         customer.Phone = phone;
+        customer.LoyaltyPoints = LoyaltyPoints;
+        customer.LoyaltyStatus = LoyaltyStatus;
 
         return JSON.stringify(customer);
     }

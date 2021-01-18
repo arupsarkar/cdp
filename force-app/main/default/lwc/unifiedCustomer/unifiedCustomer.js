@@ -15,6 +15,8 @@ const columns = [
     { label: 'Last Name', fieldName: 'LastName', type: 'text', sortable: true},
     { label: 'Phone', fieldName: 'Telephone', type: 'phone'},
     { label: 'Email', fieldName: 'EmailAddress', type: 'email'},
+    // { label: 'Loyalty Points', fieldName: 'LoyaltyPoints', type: 'text'},
+    // { label: 'Tier', fieldName: 'LoyaltyStatus', type: 'text'},
     {
         type: 'action',
         typeAttributes: { rowActions: actions },
@@ -68,6 +70,8 @@ export default class UnifiedCustomer extends LightningElement {
         console.log('>>> record : ', row.Id);
         this.record = row;
         console.log('this.record firstname : ', this.record.FirstName);
+        console.log('this.record status : ', this.record.LoyaltyStatus);
+        console.log('this.record points : ', this.record.LoyaltyPoints);
         // Creates the event with the unified customer ID data.
         const selectedEvent = new CustomEvent('customerselected', { detail: this.record });
         // Dispatches the event.

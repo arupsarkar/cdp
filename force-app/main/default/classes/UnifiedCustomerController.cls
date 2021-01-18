@@ -10,11 +10,11 @@ public with sharing class UnifiedCustomerController {
         String urlCB = '';
         if(searchParam2.length() < 1) {
             urlCB = 'callout:UnifiedIndividual/services/data/v50.0/query/?q=' +
-            'SELECT+Id__c+,+FirstName__c+,+LastName__c+FROM+UnifiedIndividual__dlm+WHERE+LastName__c+LIKE+\'' +searchParam+ '\'' +
+            'SELECT+Id__c+,+FirstName__c+,+LastName__c+,+LoyaltyPoints__c+,+LoyaltyStatus__c+FROM+UnifiedIndividual__dlm+WHERE+LastName__c+LIKE+\'' +searchParam+ '\'' +
             '+LIMIT+100';
         }else {
             urlCB = 'callout:UnifiedIndividual/services/data/v50.0/query/?q=' +
-            'SELECT+Id__c+,+FirstName__c+,+LastName__c+FROM+UnifiedIndividual__dlm+WHERE+LastName__c+LIKE+\'' +searchParam+ '\'' +
+            'SELECT+Id__c+,+FirstName__c+,+LastName__c+,+LoyaltyPoints__c+,+LoyaltyStatus__c+FROM+UnifiedIndividual__dlm+WHERE+LastName__c+LIKE+\'' +searchParam+ '\'' +
             '+AND+FirstName__c+LIKE+\'' + searchParam2 + '\'' +
             '+LIMIT+100';
         }
@@ -39,7 +39,7 @@ public with sharing class UnifiedCustomerController {
         // 3. Create a named credential
         // Reference https://eltoroit.herokuapp.com/Blog.app?page=ETLC_APIsFromApex
         String urlCB = 'callout:UnifiedIndividual/services/data/v50.0/query/?q=' +
-                        'SELECT+Id__c+,+FirstName__c+,+LastName__c+FROM+UnifiedIndividual__dlm+WHERE+LastName__c+!=+null' +
+                        'SELECT+Id__c+,+FirstName__c+,+LastName__c+,+LoyaltyPoints__c+,+LoyaltyStatus__c+FROM+UnifiedIndividual__dlm+WHERE+LastName__c+!=+null' +
                         '+LIMIT+5';
         records = getResults(urlCB);
         if(!records.isEmpty()) {
@@ -77,7 +77,9 @@ public with sharing class UnifiedCustomerController {
             System.debug(LoggingLevel.DEBUG, '>>> record : ' + 
                                                         ind.Id + ', ' + 
                                                         ind.FirstName + ',' +
-                                                        ind.LastName);
+                                                        ind.LastName + ',' +
+                                                        ind.LoyaltyPoints + ',' +
+                                                        ind.LoyaltyStatus);
             unifiedIndividualIds.add(ind.Id);
             // UnifiedIndividual record = new UnifiedIndividual();
             // record.Id = ind.Id;
@@ -108,7 +110,10 @@ public with sharing class UnifiedCustomerController {
             record.LastName = ind.LastName;
             record.Telephone = phone.TelephoneNumber;
             record.EmailAddress = email.Email;
-            records.add(record);            
+            record.LoyaltyPoints = ind.LoyaltyPoints;
+            record.LoyaltyStatus = ind.LoyaltyStatus;
+            records.add(record);  
+            System.debug(LoggingLevel.DEBUG, '---> record ' + record);          
         }
 
 
@@ -123,5 +128,7 @@ public with sharing class UnifiedCustomerController {
         @AuraEnabled public String Id {get;set;}
         @AuraEnabled public String Telephone {get;set;}
         @AuraEnabled public String EmailAddress {get;set;}
+        @AuraEnabled public String LoyaltyPoints {get;set;}
+        @AuraEnabled public String LoyaltyStatus {get;set;}
     }
 }

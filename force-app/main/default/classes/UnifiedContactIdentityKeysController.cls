@@ -15,8 +15,9 @@ public with sharing class UnifiedContactIdentityKeysController {
                     '+WHERE+PartyId__c+IN+(';
 
         queryCriteria = getQueryCriteria(searchParams);
-        System.debug(LoggingLevel.DEBUG, '>>> before criteria ' + queryCriteria);
-        String urlCB =  queryREST + queryCriteria + ')'; 
+        
+        String urlCB =  queryREST + queryCriteria + ')+LIMIT+1'; 
+        System.debug(LoggingLevel.DEBUG, '>>> final query ' + urlCB);
         List<IdentityKeysAttribute> records = new List<IdentityKeysAttribute>();  
         records = getResults(urlCB) ;
         return records;     

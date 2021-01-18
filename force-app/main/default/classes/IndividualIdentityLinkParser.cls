@@ -1,10 +1,10 @@
-public class UnifiedIndividualParser {
+public class IndividualIdentityLinkParser {
 
 	public Integer totalSize {get;set;} 
 	public Boolean done {get;set;} 
 	public List<Records> records {get;set;} 
 
-	public UnifiedIndividualParser(JSONParser parser) {
+	public IndividualIdentityLinkParser(JSONParser parser) {
 		while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 			if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 				String text = parser.getText();
@@ -16,7 +16,7 @@ public class UnifiedIndividualParser {
 					} else if (text == 'records') {
 						records = arrayOfRecords(parser);
 					} else {
-						System.debug(LoggingLevel.WARN, 'JSON2Apex consuming unrecognized property: '+text);
+						System.debug(LoggingLevel.WARN, 'IndividualIdentityLinkParser consuming unrecognized property: '+text);
 						consumeObject(parser);
 					}
 				}
@@ -49,11 +49,7 @@ public class UnifiedIndividualParser {
 	
 	public class Records {
 		public Attributes attributes {get;set;} 
-		public String FirstName {get;set;} 
-		public String LastName {get;set;} 
-		public String LoyaltyPoints {get;set;} 
-		public String LoyaltyStatus {get;set;} 
-        public String Id {get; set;}
+		public String SourceRecordId {get;set;} 
 
 		public Records(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
@@ -62,17 +58,9 @@ public class UnifiedIndividualParser {
 					if (parser.nextToken() != System.JSONToken.VALUE_NULL) {
 						if (text == 'attributes') {
 							attributes = new Attributes(parser);
-						} else if (text == 'FirstName__c') {
-							FirstName = parser.getText();
-						} else if (text == 'LastName__c') {
-							LastName = parser.getText();
-                        } else if(text == 'Id__c') {
-							Id = parser.getText();  
-                        } else if(text == 'LoyaltyPoints__c') {
-							LoyaltyPoints = parser.getText();  
-                        } else if(text == 'LoyaltyStatus__c') {
-							LoyaltyStatus = parser.getText();
-                        } else {
+						} else if (text == 'SourceRecordId__c') {
+							SourceRecordId = parser.getText();
+						} else {
 							System.debug(LoggingLevel.WARN, 'Records consuming unrecognized property: '+text);
 							consumeObject(parser);
 						}
@@ -83,9 +71,9 @@ public class UnifiedIndividualParser {
 	}
 	
 	
-	public static UnifiedIndividualParser parse(String json) {
+	public static IndividualIdentityLinkParser parse(String json) {
 		System.JSONParser parser = System.JSON.createParser(json);
-		return new UnifiedIndividualParser(parser);
+		return new IndividualIdentityLinkParser(parser);
 	}
 	
 	public static void consumeObject(System.JSONParser parser) {
