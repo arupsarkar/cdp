@@ -2,13 +2,17 @@ public with sharing class UnifiedContactPointEmailController {
     String queryCriteria = '';
     static Map<String, UnifiedIndividualEmail> unifiedIndividualEmailMap = new Map<String, UnifiedIndividualEmail>();
 
-    public UnifiedContactPointEmailController(Set<String> queryParams) {
+    public UnifiedContactPointEmailController(Set<String> queryParams, String cdp_token) {
         queryCriteria = getQueryCriteria(queryParams);
         System.debug(LoggingLevel.DEBUG, '>>> before criteria ' + queryCriteria);
-        String urlCB = 'callout:UnifiedIndividual/services/data/v50.0/query/?q=' +
-                        'SELECT+Id__c+,+PartyId__c+,+EmailAddress__c' +
-                        '+FROM+UnifiedContactPointEmail__dlm+WHERE+PartyId__c+IN+(' + queryCriteria + ')';  
-        Map<String, UnifiedIndividualEmail> emailMap = getResults(urlCB);
+        // String urlCB = 'callout:UnifiedIndividual/services/data/v50.0/query/?q=' +
+        //                 'SELECT+Id__c+,+PartyId__c+,+EmailAddress__c' +
+        //                 '+FROM+UnifiedContactPointEmail__dlm+WHERE+PartyId__c+IN+(' + queryCriteria + ')';  
+        String urlCB = '{' + '"sql"' + ':' + '"SELECT Id__c, PartyId__c, EmailAddress__c ' + 
+                'FROM UnifiedContactPointEmail__dlm WHERE PartyId__c IN (' + queryCriteria + ')"' + 
+            '}';
+        System.debug(LoggingLevel.DEBUG, '---> email query ' + urlCB) ;               
+        Map<String, UnifiedIndividualEmail> emailMap = getResults(urlCB, cdp_token);
         unifiedIndividualEmailMap.putAll(emailMap);
     }
 
@@ -33,18 +37,23 @@ public with sharing class UnifiedContactPointEmailController {
         return result;
     }
 
-    private Map<String, UnifiedIndividualEmail> getResults(String urlCB) {
+    private Map<String, UnifiedIndividualEmail> getResults(String urlCB, String cdp_token) {
         Map<String, UnifiedIndividualEmail> unifiedIndividualEmailMap = new Map<String, UnifiedIndividualEmail>();
         Http h = new Http();
         HttpRequest req = new HttpRequest(); 
-        req.setMethod('GET');
+        // req.setMethod('GET');
+        // req.setHeader('Content-Type', 'application/json;charset=UTF-8');
+        // req.setEndpoint(urlCB);
+        req.setMethod('POST');
         req.setHeader('Content-Type', 'application/json;charset=UTF-8');
-        req.setEndpoint(urlCB);
+        req.setHeader('Authorization', 'Bearer ' + cdp_token);
+        req.setBody(urlCB);
+        req.setEndpoint('https://g4zt8nl0gfst8mjtgrst8yjzmm.c360a.salesforce.com/api/v1/query');        
         HttpResponse res = h.send(req);
         System.debug(LoggingLevel.DEBUG, '>>> email output ' + res.getBody()); 
         UnifiedIndividualEmailParser unifiedIndEmail = (UnifiedIndividualEmailParser) JSON.deserialize(res.getBody().replaceAll('__c',''),UnifiedIndividualEmailParser.class); 
-        List<UnifiedIndividualEmailParser.Records> emails = unifiedIndEmail.records;   
-        for(UnifiedIndividualEmailParser.Records email : emails) {     
+        List<UnifiedIndividualEmailParser.Data> emails = unifiedIndEmail.Data;   
+        for(UnifiedIndividualEmailParser.Data email : emails) {     
             System.debug(LoggingLevel.DEBUG, '>>> email ' + email.EmailAddress);
             UnifiedIndividualEmail indEmail = new UnifiedIndividualEmail();
             indEmail.Id = email.Id;

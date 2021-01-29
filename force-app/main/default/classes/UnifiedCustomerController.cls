@@ -136,7 +136,7 @@ public with sharing class UnifiedCustomerController {
         }
 
         //get unified email address
-        UnifiedContactPointEmailController unifiedEmailCtrl = new UnifiedContactPointEmailController(unifiedIndividualIds);
+        UnifiedContactPointEmailController unifiedEmailCtrl = new UnifiedContactPointEmailController(unifiedIndividualIds, cdp_token);
         Map<String, UnifiedContactPointEmailController.UnifiedIndividualEmail> unifiedIndividualEmailMap = UnifiedContactPointEmailController.getQueryResults();
 
         for(UnifiedIndividualParser.Data ind : inds) {

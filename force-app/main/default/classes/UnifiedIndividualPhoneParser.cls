@@ -16,8 +16,4 @@ public class UnifiedIndividualPhoneParser {
 	public static UnifiedIndividualPhoneParser parse(String json) {
 		return (UnifiedIndividualPhoneParser) System.JSON.deserialize(json, UnifiedIndividualPhoneParser.class);
 	}
-
-
-
-
 }
