@@ -128,7 +128,7 @@ public with sharing class UnifiedCustomerController {
         }
         
         //get unified phone
-        UnifiedContactPointPhoneController unifiedPhoneCtrl = new UnifiedContactPointPhoneController(unifiedIndividualIds);
+        UnifiedContactPointPhoneController unifiedPhoneCtrl = new UnifiedContactPointPhoneController(unifiedIndividualIds, cdp_token);
         Map<String, UnifiedContactPointPhoneController.UnifiedIndividualPhone> unifiedIndividualPhoneMap = UnifiedContactPointPhoneController.getQueryResults();
         for(String key : unifiedIndividualPhoneMap.keySet()) {
             UnifiedContactPointPhoneController.UnifiedIndividualPhone phone = unifiedIndividualPhoneMap.get(key);

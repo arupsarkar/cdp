@@ -2,13 +2,17 @@ public with sharing class UnifiedContactPointPhoneController {
 
     String queryCriteria = '';
     static Map<String, UnifiedIndividualPhone> unifiedIndividualPhoneMap = new Map<String, UnifiedIndividualPhone>();
-    public UnifiedContactPointPhoneController(Set<String> queryParams) {
+    public UnifiedContactPointPhoneController(Set<String> queryParams, String cdp_token) {
         queryCriteria = getQueryCriteria(queryParams);
         System.debug(LoggingLevel.DEBUG, '>>> before criteria ' + queryCriteria);
-        String urlCB = 'callout:UnifiedIndividual/services/data/v50.0/query/?q=' +
-                        'SELECT+Id__c+,+PartyId__c+,+TelephoneNumber__c' +
-                        '+FROM+UnifiedContactPointPhone__dlm+WHERE+PartyId__c+IN+(' + queryCriteria + ')';  
-        Map<String, UnifiedIndividualPhone> phoneMap = getResults(urlCB);
+        // String urlCB = 'callout:UnifiedIndividual/services/data/v50.0/query/?q=' +
+        //                 'SELECT+Id__c+,+PartyId__c+,+TelephoneNumber__c' +
+        //                 '+FROM+UnifiedContactPointPhone__dlm+WHERE+PartyId__c+IN+(' + queryCriteria + ')';  
+        String urlCB = '{' + '"sql"' + ':' + '"SELECT Id__c, PartyId__c, TelephoneNumber__c ' + 
+        'FROM UnifiedContactPointPhone__dlm WHERE PartyId__c IN (' + queryCriteria + ')"' + 
+        '}';
+        System.debug(LoggingLevel.DEBUG, '---> phone query ' + urlCB) ;       
+        Map<String, UnifiedIndividualPhone> phoneMap = getResults(urlCB, cdp_token);
         unifiedIndividualPhoneMap.putAll(phoneMap);
     }
 
@@ -33,18 +37,24 @@ public with sharing class UnifiedContactPointPhoneController {
         return result;
     }
 
-    private Map<String, UnifiedIndividualPhone> getResults(String urlCB) {
+    private Map<String, UnifiedIndividualPhone> getResults(String urlCB, String cdp_token) {
         Map<String, UnifiedIndividualPhone> unifiedIndividualPhoneMap = new Map<String, UnifiedIndividualPhone>();
         Http h = new Http();
         HttpRequest req = new HttpRequest(); 
-        req.setMethod('GET');
+        // req.setMethod('GET');
+        // req.setHeader('Content-Type', 'application/json;charset=UTF-8');
+        // req.setEndpoint(urlCB);
+
+        req.setMethod('POST');
         req.setHeader('Content-Type', 'application/json;charset=UTF-8');
-        req.setEndpoint(urlCB);
+        req.setHeader('Authorization', 'Bearer ' + cdp_token);
+        req.setBody(urlCB);
+        req.setEndpoint('https://g4zt8nl0gfst8mjtgrst8yjzmm.c360a.salesforce.com/api/v1/query');
         HttpResponse res = h.send(req);
         System.debug(LoggingLevel.DEBUG, '>>> raw output ' + res.getBody()); 
         UnifiedIndividualPhoneParser unifiedIndPhone = (UnifiedIndividualPhoneParser) JSON.deserialize(res.getBody().replaceAll('__c',''),UnifiedIndividualPhoneParser.class); 
-        List<UnifiedIndividualPhoneParser.Records> phones = unifiedIndPhone.records;   
-        for(UnifiedIndividualPhoneParser.Records phone : phones) {     
+        List<UnifiedIndividualPhoneParser.Data> phones = unifiedIndPhone.Data;   
+        for(UnifiedIndividualPhoneParser.Data phone : phones) {     
             System.debug(LoggingLevel.DEBUG, '>>> phone ' + phone.TelephoneNumber);
             UnifiedIndividualPhone indPhone = new UnifiedIndividualPhone();
             indPhone.Id = phone.Id;
