@@ -58,7 +58,7 @@ export default class IdentityKeys extends NavigationMixin(LightningElement) {
                         this.addressLine1, this.addressLine2, this.city, 
                         this.state, this.postalCode, this.country, 
                         event.detail.EmailAddress, event.detail.Telephone,
-                        event.detail.LoyaltyPoints, event.detail.LoyaltyStatus)
+                        event.detail.LoyaltyStatus, event.detail.LoyaltyPoints)
                     );
             
             console.log('customer record ', JSON.stringify(this.customerRecord));
@@ -154,8 +154,9 @@ export default class IdentityKeys extends NavigationMixin(LightningElement) {
         customer.Country = country;
         customer.Email = email;
         customer.Phone = phone;
+        customer.LoyaltyStatus = LoyaltyStatus;        
         customer.LoyaltyPoints = LoyaltyPoints;
-        customer.LoyaltyStatus = LoyaltyStatus;
+
 
         return JSON.stringify(customer);
     }

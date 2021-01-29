@@ -7,7 +7,7 @@ import { MessageContext,
     subscribe, 
     unsubscribe } from 'lightning/messageService';
 import SAMPLEMC from "@salesforce/messageChannel/CustomerMessagingChannel__c";
-
+import getSalesOrders from '@salesforce/apex/SalesOrderController.getSalesOrders';
 
 export default class CustomerProfile extends LightningElement {
 
@@ -16,12 +16,30 @@ export default class CustomerProfile extends LightningElement {
     @track receivedMessage = 'customer id';
     @api ParentMessage = '';
     @track customerRecord = '';
+    @track salesorderRecord = '';
+    @track errorMsg = '';
+    @track LifeTimeSpend = '';
+    @track LifeTimeOrders = '';
+    @track AvgOrderAmount = '';
 
     connectedCallback() {
         console.log('connected callback initiated ...', this.ParentMessage.Id);
         this.subscribeMC();
+        getSalesOrders({searchParam : this.ParentMessage.Id})
+        .then((data) => {
+            console.log('sales data', data);
+            this.LifeTimeSpend = data[0].ltvSpend;
+            this.LifeTimeOrders = data[0].ltvOrders;
+            this.AvgOrderAmount = data[0].avgOrderAmount;
+        })
+        .catch((error) => {
+            this.errorMsg = error;
+        });        
     }    
     
+
+    
+
     subscribeMC() {
         console.log('C360 this.subscription...before', this.subscription);
         if (this.subscription) {

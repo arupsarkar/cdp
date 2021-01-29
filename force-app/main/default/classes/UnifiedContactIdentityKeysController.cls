@@ -25,7 +25,9 @@ public with sharing class UnifiedContactIdentityKeysController {
     }
 
     private static IdentityKeysAttribute[] getResults(String urlCB) {
-        List<IdentityKeysAttribute> records = new List<IdentityKeysAttribute>();        
+        List<IdentityKeysAttribute> records = new List<IdentityKeysAttribute>();  
+        UnifiedIndividualAddressParser unifiedIndKeysAttrs; 
+        Boolean errorFlag = false;             
         Map<String, IdentityKeysAttribute> unifiedIndividualIdentityKeysMap = new Map<String, IdentityKeysAttribute>();
         Http h = new Http();
         HttpRequest req = new HttpRequest(); 
@@ -34,7 +36,20 @@ public with sharing class UnifiedContactIdentityKeysController {
         req.setEndpoint(urlCB);
         HttpResponse res = h.send(req);
         System.debug(LoggingLevel.DEBUG, '>>> address output ' + res.getBody()); 
-        UnifiedIndividualAddressParser unifiedIndKeysAttrs = (UnifiedIndividualAddressParser) JSON.deserialize(res.getBody().replaceAll('__c',''),UnifiedIndividualAddressParser.class); 
+
+        try{
+            unifiedIndKeysAttrs = (UnifiedIndividualAddressParser) JSON.deserialize(res.getBody().replaceAll('__c',''),UnifiedIndividualAddressParser.class); 
+        }catch(Exception ex) {
+            errorFlag = true;
+            System.debug(LoggingLevel.ERROR, '---> Error ' + ex.getMessage());
+        }
+
+        if(errorFlag) {
+            records = getSeedData();
+            return records;
+        }
+
+        
         List<UnifiedIndividualAddressParser.Records> keys = unifiedIndKeysAttrs.records;   
         for(UnifiedIndividualAddressParser.Records key : keys) {     
             System.debug(LoggingLevel.DEBUG, '>>> key ' + key.AddressLine1);
@@ -65,6 +80,19 @@ public with sharing class UnifiedContactIdentityKeysController {
             counter++;
         }
         return result;
+    }
+
+    private static List<IdentityKeysAttribute> getSeedData() {
+        List<IdentityKeysAttribute> records = new List<IdentityKeysAttribute>();
+        IdentityKeysAttribute record = new IdentityKeysAttribute();
+        record.Id = '1';
+        record.AddressLine1 = '15 Braveheart Lane';
+        record.City = 'New York';
+        record.Country = 'US';
+        record.PostalCode = '10011';
+        record.State = 'NY';
+        records.add(record);
+        return records;
     }
 
     public class IdentityKeysAttribute {
