@@ -53,16 +53,20 @@ public with sharing class UnifiedContactPointPhoneController {
         HttpResponse res = h.send(req);
         System.debug(LoggingLevel.DEBUG, '>>> raw output ' + res.getBody()); 
         UnifiedIndividualPhoneParser unifiedIndPhone = (UnifiedIndividualPhoneParser) JSON.deserialize(res.getBody().replaceAll('__c',''),UnifiedIndividualPhoneParser.class); 
-        List<UnifiedIndividualPhoneParser.Data> phones = unifiedIndPhone.Data;   
-        for(UnifiedIndividualPhoneParser.Data phone : phones) {     
-            System.debug(LoggingLevel.DEBUG, '>>> phone ' + phone.TelephoneNumber);
-            UnifiedIndividualPhone indPhone = new UnifiedIndividualPhone();
-            indPhone.Id = phone.Id;
-            indPhone.PartyId = phone.PartyId;
-            indPhone.TelephoneNumber = phone.TelephoneNumber;
-            unifiedIndividualPhoneMap.put(phone.PartyId, indPhone);
+        List<UnifiedIndividualPhoneParser.Data> phones = unifiedIndPhone.Data;
+        if(phones != null && !phones.isEmpty()) {
+            
+            for(UnifiedIndividualPhoneParser.Data phone : phones) {     
+                System.debug(LoggingLevel.DEBUG, '>>> phone ' + phone.TelephoneNumber);
+                UnifiedIndividualPhone indPhone = new UnifiedIndividualPhone();
+                indPhone.Id = phone.Id;
+                indPhone.PartyId = phone.PartyId;
+                indPhone.TelephoneNumber = phone.TelephoneNumber;
+                unifiedIndividualPhoneMap.put(phone.PartyId, indPhone);
+            }            
+        }else {
+            System.debug(LoggingLevel.DEBUG, '---> phones list is empty.');
         }
-
         return unifiedIndividualPhoneMap;
     }
 

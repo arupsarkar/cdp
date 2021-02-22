@@ -52,16 +52,20 @@ public with sharing class UnifiedContactPointEmailController {
         HttpResponse res = h.send(req);
         System.debug(LoggingLevel.DEBUG, '>>> email output ' + res.getBody()); 
         UnifiedIndividualEmailParser unifiedIndEmail = (UnifiedIndividualEmailParser) JSON.deserialize(res.getBody().replaceAll('__c',''),UnifiedIndividualEmailParser.class); 
-        List<UnifiedIndividualEmailParser.Data> emails = unifiedIndEmail.Data;   
-        for(UnifiedIndividualEmailParser.Data email : emails) {     
-            System.debug(LoggingLevel.DEBUG, '>>> email ' + email.EmailAddress);
-            UnifiedIndividualEmail indEmail = new UnifiedIndividualEmail();
-            indEmail.Id = email.Id;
-            indEmail.PartyId = email.PartyId;
-            indEmail.Email = email.EmailAddress;
-            unifiedIndividualEmailMap.put(email.PartyId, indEmail);
+        List<UnifiedIndividualEmailParser.Data> emails = unifiedIndEmail.Data;  
+        if(emails != null && !emails.isEmpty()) {
+            System.debug(LoggingLevel.DEBUG, '---> emails size() ' + emails.size());
+            for(UnifiedIndividualEmailParser.Data email : emails) {     
+                System.debug(LoggingLevel.DEBUG, '>>> email ' + email.EmailAddress);
+                UnifiedIndividualEmail indEmail = new UnifiedIndividualEmail();
+                indEmail.Id = email.Id;
+                indEmail.PartyId = email.PartyId;
+                indEmail.Email = email.EmailAddress;
+                unifiedIndividualEmailMap.put(email.PartyId, indEmail);
+            }
+        } else {
+            System.debug(LoggingLevel.DEBUG, '---> email list is empty.');
         }
-
         return unifiedIndividualEmailMap;
     }
 

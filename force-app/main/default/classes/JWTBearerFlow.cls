@@ -1,8 +1,7 @@
 global class JWTBearerFlow {
-
-    global static String getAssertionValue(JWT jwt) {
-        String jwt_issue = jwt.issue();
-        return jwt_issue;
+    global static string getAssertionValue(JWT jwt) {
+        String assertion_token = jwt.issue();
+        return assertion_token;
     }
 
     global static String getAccessToken(String tokenEndpoint, JWT jwt) {

@@ -1,0 +1,41 @@
+<template>
+    <lightning-card icon-name="standard:account" title="Recent Orders">
+        <div class="c-container">
+            <lightning-layout>
+                <lightning-layout-item padding="around-small">
+                    <div class="header-column">
+                        <p>Last 30 days</p>
+                    </div>                            
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+        
+        <div class="c-container">
+            <lightning-layout>
+                <lightning-layout-item padding="around-small">
+                    <div class="header-column">
+                        <p>{productName}</p>
+                    </div>
+                    <div class="header-column">
+                        <p><lightning-formatted-number value={productPrice} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
+                    </div>
+                    <div class="header-column">
+                        <p>{purchaseDate}</p>
+                    </div>                                                                                
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+<!--         
+        <template if:true={salesOrderList}>
+            <lightning-datatable data={salesOrderList} columns={columns} key-field="Id">
+            </lightning-datatable>
+        </template> -->
+        <template if:true={error}>
+            {error}
+        </template>
+        <p slot="footer">
+            <a onclick={handleClick}>View All</a></p>
+        </p>
+    </lightning-card>
+
+</template>

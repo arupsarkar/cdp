@@ -1,4 +1,4 @@
-public with sharing class C360AuthController {
+public class C360AuthController {
     public String cdp_token;
     public static List<C360Auth__mdt> getAllRecords() {
         return [ SELECT DeveloperName, MasterLabel, jwt_aud__c, jwt_exp__c, jwt_iss__c,jwt_sub__c  
@@ -46,6 +46,38 @@ public with sharing class C360AuthController {
         return access_token;                      
     }
 
+    public string getAssertionToken() {
+        String token, iss, sub, aud, exp, token_endpoint;
+        List<C360Auth__mdt> eass =  getAllRecords();
+        for(C360Auth__mdt eas : eass ) {
+            if(eas.MasterLabel.equals('C360 Auth Settings')) {
+                iss = eas.jwt_iss__c;
+                sub = eas.jwt_sub__c;
+                aud = eas.jwt_aud__c;
+                exp = eas.jwt_exp__c;
+            }
+        }
+        // Ignore the File upload part and "jwt.pkcs" if you used a Salesforce certificate to sign up 
+        // for an Einstein Platform account
+        ContentVersion base64Content = [SELECT Title, VersionData FROM ContentVersion where Title='server' ORDER BY Title LIMIT 1];
+        String keyContents = base64Content.VersionData.tostring();
+        keyContents = keyContents.replace('-----BEGIN RSA PRIVATE KEY-----', '');
+        keyContents = keyContents.replace('-----END RSA PRIVATE KEY-----', '');
+        keyContents = keyContents.replace('\n', '');
+        System.debug(LoggingLevel.DEBUG, keyContents);
+        // Get a new token
+        JWT jwt = new JWT('RS256');
+        //jwt.cert = 'JWTCert'; // Uncomment this if you used a Salesforce certificate to sign up for an Einstein Platform account
+        jwt.pkcs8 = keyContents; // Comment this if you are using jwt.cert
+        //jwt.cert = keyContents;
+        jwt.iss = iss;
+        jwt.sub = sub;
+        jwt.aud = aud;
+        jwt.exp = exp;
+        token_endpoint = aud;
+        String assertion_token = JWTBearerFlow.getAssertionValue(jwt);
+        return assertion_token;        
+    }
     public string getAccessToken() {
         String token, iss, sub, aud, exp, token_endpoint;
         List<C360Auth__mdt> eass =  getAllRecords();

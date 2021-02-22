@@ -1,7 +1,12 @@
 public with sharing class UnifiedCustomerController {
-    static String cdp_token;
+    public class CustomException extends Exception {} 
+    public static String cdp_token {get; set;}
     public UnifiedCustomerController() {
-
+        //GetCDPToken.cdp_token = getCDPToken();
+    }
+    public static String getCDPToken() {
+        C360AuthController cdpAuth = new C360AuthController();        
+        return cdpAuth.cdp_token;        
     }
 
     @AuraEnabled(cacheable=true)
@@ -71,8 +76,9 @@ public with sharing class UnifiedCustomerController {
 
     private static UnifiedIndividual[] getResults(String urlCB) {
         System.debug(LoggingLevel.DEBUG, '>>> url ' + urlCB);
-        C360AuthController cdpAuth = new C360AuthController();
-        cdp_token = cdpAuth.cdp_token;
+        //C360AuthController cdpAuth = new C360AuthController();
+        cdp_token = getCDPToken();
+
         System.debug(LoggingLevel.DEBUG, '>>> token ' + cdp_token);                
         Set<String> unifiedIndividualIds = new Set<String>();
         List<UnifiedIndividual> records = new List<UnifiedIndividual>();  
@@ -92,6 +98,11 @@ public with sharing class UnifiedCustomerController {
 
         HttpResponse res = h.send(req);
         System.debug(LoggingLevel.DEBUG, '>>> raw output ' + res.getBody());  
+        System.debug(LoggingLevel.DEBUG, '>>> status code ' + res.getStatusCode());  
+        if(res.getStatusCode() == 500) {
+            System.debug(LoggingLevel.ERROR, '>>> error ' + res.getStatus());  
+            throw new CustomException(res.getBody());
+        }
         Boolean errorFlag = false;
         try{
             unifiedInd = (UnifiedIndividualParser) JSON.deserialize(res.getBody().replaceAll('__c',''),UnifiedIndividualParser.class);
@@ -107,8 +118,12 @@ public with sharing class UnifiedCustomerController {
               
         //UnifiedIndividualParser unifiedInd = UnifiedIndividualParser.parse(res.getBody());
         List<UnifiedIndividualParser.Data> inds = unifiedInd.Data;
+        if(inds == null && inds.isEmpty()) {
+            throw new CustomException(res.getBody());
+        }
 
-
+        System.debug(LoggingLevel.DEBUG, '---> inds.size() ' + inds.size());
+        System.debug(LoggingLevel.DEBUG, '---> inds[0] ' + inds[0]);
 
         for(UnifiedIndividualParser.Data ind : inds) {
 
@@ -143,13 +158,13 @@ public with sharing class UnifiedCustomerController {
             UnifiedIndividual record = new UnifiedIndividual();
             UnifiedContactPointPhoneController.UnifiedIndividualPhone phone = unifiedIndividualPhoneMap.get(ind.Id);
             UnifiedContactPointEmailController.UnifiedIndividualEmail email = unifiedIndividualEmailMap.get(ind.Id);
-            record.Id = ind.Id;
-            record.FirstName = ind.FirstName;
-            record.LastName = ind.LastName;
-            record.Telephone = phone.TelephoneNumber;
-            record.EmailAddress = email.Email;
-            record.LoyaltyPoints = ind.LoyaltyPoints;
-            record.LoyaltyStatus = ind.LoyaltyStatus;
+            record.Id = getResult(ind.Id);
+            record.FirstName = getResult(ind.FirstName);
+            record.LastName = getResult(ind.LastName);
+            record.Telephone = phone != null ? getResult(phone.TelephoneNumber) : '';
+            record.EmailAddress = email != null ? getResult(email.Email) : '';
+            record.LoyaltyPoints = getResult(ind.LoyaltyPoints);
+            record.LoyaltyStatus = getResult(ind.LoyaltyStatus);
             records.add(record);  
             System.debug(LoggingLevel.DEBUG, '---> record ' + record);          
         }
@@ -195,6 +210,16 @@ public with sharing class UnifiedCustomerController {
         @AuraEnabled public String EmailAddress {get;set;}
         @AuraEnabled public String LoyaltyPoints {get;set;}
         @AuraEnabled public String LoyaltyStatus {get;set;}
+    }
+
+    private static String getResult(String data) {
+        String result = '';
+        if(data.length() < 1 && data == null) {
+            return result;
+        }else {
+            result = data;
+        }
+        return result;
     }
 
 }

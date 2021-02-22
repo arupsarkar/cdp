@@ -26,7 +26,7 @@ const columns = [
 export default class UnifiedCustomer extends LightningElement {
 
     columns = columns;
-    errorMsg;
+    @track errorMsg;
     constructor(){
         super();
     }
@@ -46,9 +46,11 @@ export default class UnifiedCustomer extends LightningElement {
             console.log('html data 4', this.individualList);
 
         } else if(error){
+            this.isLoading = false;
             console.log('Activity Error');
-            this.errorMsg = error;
+            //this.errorMsg = error;
             console.log(error);
+            this.errorMsg = error.body.message;
         } else{
             console.log('Sorry Nothing Happened');
         }

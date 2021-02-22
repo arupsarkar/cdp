@@ -21,6 +21,9 @@ export default class CustomerProfile extends LightningElement {
     @track LifeTimeSpend = '';
     @track LifeTimeOrders = '';
     @track AvgOrderAmount = '';
+    @track HighestOrderAmount = '';
+    @track LowestOrderAmount = '';
+
 
     connectedCallback() {
         console.log('connected callback initiated ...', this.ParentMessage.Id);
@@ -31,6 +34,8 @@ export default class CustomerProfile extends LightningElement {
             this.LifeTimeSpend = data[0].ltvSpend;
             this.LifeTimeOrders = data[0].ltvOrders;
             this.AvgOrderAmount = data[0].avgOrderAmount;
+            this.HighestOrderAmount = data[0].highestOrderAmount;
+            this.LowestOrderAmount = data[0].lowestOrderAmount;
         })
         .catch((error) => {
             this.errorMsg = error;

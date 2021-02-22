@@ -65,7 +65,22 @@
                                             <p class="field-title" title="Avg Order Amount">Avg Order Amount</p>
                                             <p><lightning-formatted-number value={AvgOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
                                         </div>                            
-                                    </lightning-layout-item>                        
+                                    </lightning-layout-item>
+                                    
+                                    <lightning-layout-item padding="around-small">
+                                        <div class="header-column">
+                                            <p class="field-title" title="Lifetime Orders">Highest Order Amount</p>
+                                            <p><lightning-formatted-number value={HighestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
+                                        </div>                            
+                                    </lightning-layout-item>
+            
+                                    <lightning-layout-item padding="around-small">
+                                        <div class="header-column">
+                                            <p class="field-title" title="Lifetime Orders">Lowest Order Amount</p>
+                                            <p><lightning-formatted-number value={LowestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
+                                        </div>                            
+                                    </lightning-layout-item>
+
                                 </lightning-layout>                    
                             </div>
                         </lightning-card>
@@ -129,6 +144,7 @@
 
             </lightning-layout-item>
         </lightning-layout>
+
     </div>
 
     <!-- <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none"> -->
@@ -136,7 +152,7 @@
     <div class="c-container">
         <lightning-layout>
             <lightning-layout-item padding="around-small">
-                <c-is-quickstart_makana-demo></c-is-quickstart_makana-demo>
+                <c-recent-sales-order></c-recent-sales-order>
             </lightning-layout-item>
         </lightning-layout>
     </div>
