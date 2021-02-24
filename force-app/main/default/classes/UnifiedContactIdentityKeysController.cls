@@ -31,6 +31,7 @@ public with sharing class UnifiedContactIdentityKeysController {
         // call LTV
         LTVController();
         SalesOrderController();
+        SegmentMembershipController();
         return records;     
 
     }
@@ -228,6 +229,67 @@ public with sharing class UnifiedContactIdentityKeysController {
         }catch(Exception ex) {
             System.debug(LoggingLevel.ERROR, 'Error deleting Sales orders : ' + ex.getMessage());
         }
+    }
+    @future(callout=true)
+    private static void SegmentMembershipDML(List<String> attibutes) {
+        String c360_token = UnifiedCustomerController.getCDPToken();
+        System.debug(LoggingLevel.DEBUG, 'SegmentMembershipDML cdp token : ' + c360_token);
+        System.debug(LoggingLevel.DEBUG, 'SegmentMembershipDML unified id : ' + attibutes[1]);        
+        String urlCB = '{' + '"sql"' + ':' + '"select DISTINCT UI.Id__c,SM.segmentname__c from UnifiedIndividual__dlm UI  ' + 
+                        'INNER JOIN IndividualIdentityLink__dlm IIL on UI.Id__c = IIL.UnifiedRecordId__c INNER JOIN Segment_Membership__dlm SM ' + 
+                        'on IIL.SourceRecordId__c = SM.subscriberkey__c where UI.Id__c = \'' + attibutes[1] + '\'' + 
+                        '"}';  
+        System.debug(LoggingLevel.DEBUG, urlCB);
+        Http h = new Http();
+        HttpRequest req = new HttpRequest(); 
+        req.setMethod('POST');
+        req.setHeader('Content-Type', 'application/json;charset=UTF-8');
+        req.setHeader('Authorization', 'Bearer ' + c360_token);
+        req.setTimeout(20000);
+        req.setBody(urlCB);       
+        req.setEndpoint('https://g4zt8nl0gfst8mjtgrst8yjzmm.c360a.salesforce.com/api/v1/query');
+        HttpResponse res = h.send(req);
+        System.debug(LoggingLevel.DEBUG, '>>> SegmentMembershipDML output ' + res.getBody());
+        
+        UnifiedSegmentParser segmentMembership = (UnifiedSegmentParser) JSON.deserialize(res.getBody().replaceAll('__c',''),UnifiedSegmentParser.class);
+
+        List<UnifiedSegmentParser.Data> keys = segmentMembership.Data;
+        List<C360_Segment_Membership__c> segmentMembershipList = new List<C360_Segment_Membership__c>();
+        for(UnifiedSegmentParser.Data key : keys) {
+            C360_Segment_Membership__c c360SM = new C360_Segment_Membership__c();
+            c360SM.Unified_Id__c = attibutes[1];
+            c360SM.Segment_Name__c = getSegmentName(key.segmentname);
+            segmentMembershipList.add(c360SM);
+        } 
+        try{
+            insert segmentMembershipList;
+        }catch(Exception ex){
+            System.debug(LoggingLevel.ERROR, 'Error inserting SM records : ' + ex.getMessage());
+        }        
+
+
+    }
+    private static String getSegmentName(String segmentName) {
+        String result = segmentName;
+        Integer underScore = segmentName.indexOf('_');
+        if(underScore > 0) {
+            result = segmentName.substring(0, underScore-1);
+        }
+
+        return result;
+    }
+    private static void SegmentMembershipController() {
+        List<C360_Segment_Membership__c> records = [SELECT Id FROM C360_Segment_Membership__c];
+        List<String> attributes = new List<String>();
+        attributes.add(cdp_token);
+        attributes.add(unifiedIndividualId); 
+        if(records.size() < 1) {
+            System.debug(LoggingLevel.DEBUG, 'No sales orders records to delete');
+            SegmentMembershipDML(attributes);
+        }else {
+            Database.DeleteResult[] srList = Database.delete(records, false);
+            SegmentMembershipDML(attributes);
+        }               
     }
 
     private static string getQueryCriteria(Set<String> queryParams) {

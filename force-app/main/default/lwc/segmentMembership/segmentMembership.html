@@ -1,0 +1,26 @@
+<template>
+    <lightning-card icon-name="standard:contact" title="Segment Membership">
+
+
+        <div class="c-container">
+            <lightning-layout>
+                <lightning-layout-item padding="around-small">
+                    <div class="header-column">
+                        <p>{segmentName}</p>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+
+
+        <template if:true={error}>
+            {error}
+        </template>
+        <p slot="footer">
+            <a onclick={handleClick}>View All</a></p>
+        </p>            
+    </lightning-card>
+
+
+
+</template>
