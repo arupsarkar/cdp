@@ -9,22 +9,24 @@
                 </lightning-layout-item>
             </lightning-layout>
         </div>
-        
-        <div class="c-container">
-            <lightning-layout>
-                <lightning-layout-item padding="around-small">
-                    <div class="header-column">
-                        <p>{productName}</p>
-                    </div>
-                    <div class="header-column">
-                        <p><lightning-formatted-number value={productPrice} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
-                    </div>
-                    <div class="header-column">
-                        <p>{purchaseDate}</p>
-                    </div>                                                                                
-                </lightning-layout-item>
-            </lightning-layout>
-        </div>
+        <template if:true={salesOrderList}>
+            <div class="c-container">
+                <lightning-layout>
+                    <lightning-layout-item padding="around-small">
+                        <div class="header-column">
+                            <p>{productName}</p>
+                        </div>
+                        <div class="header-column">
+                            <p><lightning-formatted-number value={productPrice} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
+                        </div>
+                        <div class="header-column">
+                            <p>{purchaseDate}</p>
+                        </div>                                                                                
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+        </template>
+
 <!--         
         <template if:true={salesOrderList}>
             <lightning-datatable data={salesOrderList} columns={columns} key-field="Id">

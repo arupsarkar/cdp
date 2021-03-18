@@ -62,10 +62,13 @@ export default class RecentSalesOrder extends NavigationMixin(LightningElement) 
     }) {
         if (data) {
             console.log(data);
-            this.productName = data[0].Product_Name__c;
-            this.productPrice = data[0].Sale_Price_Amount__c;
-            this.purchaseDate = data[0].Purchase_Order_Date__c;
-            this.salesOrderList = data;
+            if(data){
+                this.productName = data[0].Product_Name__c;
+                this.productPrice = data[0].Sale_Price_Amount__c;
+                this.purchaseDate = data[0].Purchase_Order_Date__c;
+                this.salesOrderList = data;
+            }
+
         } else if (error) {
             this.error = error;
         }

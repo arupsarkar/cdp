@@ -1,0 +1,77 @@
+<template>
+
+    <lightning-card icon-name="custom:custom14" title="Engagement Timeline">
+
+        <ul class="slds-timeline"> 
+            <template for:each={engagementList} for:item="engagement">
+                <li key={engagement.Id}>
+                    <div class="slds-timeline__item_expandable slds-timeline__item_email">
+                        <div class="slds-media">
+                            <div class="slds-media__figure">
+                                <button class="slds-button slds-button_icon" title={engagement.EngagementChannel__c} aria-controls="email-item-base">
+                                <svg class="slds-button__icon slds-timeline__details-action-icon" aria-hidden="true">
+                                    <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#switch"></use>
+                                </svg>
+                                <span class="slds-assistive-text">{engagement.EngagementChannel__c} {engagement.EngagementChannel__c}</span>
+                                </button>
+                                <div class="slds-icon_container slds-icon-standard-email slds-timeline__icon" title="email">
+                                <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                                    <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#email"></use>
+                                </svg>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-media__body">
+                                <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                                <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                                    <h3 class="slds-truncate" title="Re: Mobile conversation on Monday with the new global team">
+                                        <lightning-button data-id={engagement.Id} label={engagement.EngagementChannel__c} onclick={handleNavigateByDataAttribute}></lightning-button>
+                                    <!-- <a href="#">
+                                        <strong>{engagement.EngagementChannel__c} {engagement.EngagementDevice__c}</strong>
+                                    </a> -->
+                                    </h3>
+                                    <div class="slds-no-flex">
+                                    <span class="slds-icon_container slds-icon-utility-groups" title="Group email">
+                                        <svg class="slds-icon slds-icon_xx-small slds-icon-text-default slds-m-left_x-small" aria-hidden="true">
+                                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#groups"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="slds-icon_container slds-icon-utility-attach" title="Has attachments">
+                                        <svg class="slds-icon slds-icon_xx-small slds-icon-text-default slds-m-left_x-small" aria-hidden="true">
+                                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#attach"></use>
+                                        </svg>
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="slds-timeline__actions slds-timeline__actions_inline">
+                                    <p class="slds-timeline__date">{engagement.EngagementDateTime__c}</p>
+                                    <button class="slds-button slds-button_icon slds-button_icon-border-filled slds-button_icon-x-small" aria-haspopup="true" title="More Options for this item">
+                                    <svg class="slds-button__icon" aria-hidden="true">
+                                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                    </svg>
+                                    </button>
+                                </div>
+                                </div>
+                                <p class="slds-m-horizontal_xx-small">
+                                <a href="#">{engagement.EngagementChannel__c} {engagement.EngagementDevice__c}</a> {engagement.ProductSKU__c}
+                                </p>
+                            </div>                            
+
+                        </div>
+                    </div>
+                    
+                </li>
+            </template>
+        </ul>   
+        
+        <template if:true={error}>
+            {error}
+        </template>
+        <p slot="footer">
+            <a onclick={handleClick}>View All</a></p>
+        </p>        
+    </lightning-card>
+
+
+
+</template>
