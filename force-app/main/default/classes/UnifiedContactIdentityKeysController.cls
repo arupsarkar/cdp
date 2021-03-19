@@ -7,16 +7,10 @@ public with sharing class UnifiedContactIdentityKeysController {
 
     @AuraEnabled
     public static IdentityKeysAttribute[] getUnifiedIdentityKeysSearchList(String searchParam) {
-        unifiedIndividualId = searchParam;
+        System.debug(LoggingLevel.DEBUG, '---> search params : ' + searchParam);
+        unifiedIndividualId = getUnifiedId(searchParam);
         Set<String> searchParams = new Set<String>();
-        searchParams.add(searchParam);
-        // String queryCriteria = '';        
-        // string queryREST = 
-        //             'callout:UnifiedIndividual/services/data/v50.0/query/?q=' +
-        //             'SELECT+Id__c+,+PartyId__c+,+AddressLine1__c+,+AddressLine2__c+,+CityName__c' + 
-        //             '+,+StateProvinceName__c+,+CountryName__c+,+PostalCodeText__c' + 
-        //             '+FROM+UnifiedContactPointAddress__dlm' +
-        //             '+WHERE+PartyId__c+IN+(';
+        searchParams.add(unifiedIndividualId);
 
         queryCriteria = getQueryCriteria(searchParams);
         String urlCB = '{' + '"sql"' + ':' + '"SELECT Id__c, PartyId__c, AddressLine1__c, AddressLine2__c, ' + 
@@ -24,18 +18,9 @@ public with sharing class UnifiedContactIdentityKeysController {
         'FROM UnifiedContactPointAddress__dlm WHERE PartyId__c IN (' + queryCriteria + ') LIMIT 1"' + 
         '}';
         
-        // String urlCB =  queryREST + queryCriteria + ')+LIMIT+1'; 
         System.debug(LoggingLevel.DEBUG, '>>> final query ' + urlCB);
         List<IdentityKeysAttribute> records = new List<IdentityKeysAttribute>();  
-        // records = getResults(urlCB) ;
-        // // Lifetime Value Controller
-        // LTVController();
-        // // Sales Order Controller
-        // SalesOrderController();
-        // // Segment Controllers
-        // SegmentMembershipController();
-        // // Engagement Controllers
-        // EngagementController();
+        records = getResults(urlCB) ;
         mainController(unifiedIndividualId);        
         return records;     
 
@@ -44,6 +29,25 @@ public with sharing class UnifiedContactIdentityKeysController {
 
     }
 
+    private static String getUnifiedId(String data) {
+        String result = '';
+        if(data.length() > 0) {
+            JSONParser parser = JSON.createParser(data);
+            while (parser.nextToken() != null) {
+                if ((parser.getCurrentToken() == JSONToken.FIELD_NAME) && 
+                (parser.getText() == 'unifiedId')) {
+                    // Get the value.
+                    parser.nextToken();
+                    result = parser.getText();
+                }
+            }
+        }else {
+            return null;
+        }
+        System.debug(LoggingLevel.DEBUG, 'unified id' + result);
+        return result;
+
+    }
 
     @future(callout=true)
     private static void mainController(String searchParam) {
@@ -272,38 +276,7 @@ public with sharing class UnifiedContactIdentityKeysController {
         }                    
 
     }
-    //Set LTV Attributes
-    // private static void LTVController() {
-    //     // params
-    //     System.debug(LoggingLevel.DEBUG, 'LTVCtrl cdp token : ' + cdp_token);
-    //     System.debug(LoggingLevel.DEBUG, 'LTVCtrl unified id : ' + unifiedIndividualId);
-    //     List<C360_LTV__c> records = [SELECT Id from C360_LTV__c];
-    //     try{
-    //         Database.DeleteResult[] srList = Database.delete(records, false);
-    //         if(srList.size() < 1) {
-    //             LTVDML(cdp_token, unifiedIndividualId);
-    //         }
-    //         // Iterate through each returned result
-    //         for (Database.DeleteResult sr : srList) {
-    //             if (sr.isSuccess()) {
-    //                 // Operation was successful, so get the ID of the record that was processed
-    //                 System.debug('Successfully inserted account. Account ID: ' + sr.getId());
-    //                 //make a connection to CDP get the JSON
-    //                 LTVDML(cdp_token, unifiedIndividualId);
-    //             }
-    //             else {
-    //                 // Operation failed, so get all errors                
-    //                 for(Database.Error err : sr.getErrors()) {
-    //                     System.debug('The following error has occurred.');                    
-    //                     System.debug(err.getStatusCode() + ': ' + err.getMessage());
-    //                     System.debug('Account fields that affected this error: ' + err.getFields());
-    //                 }
-    //             }
-    //         }            
-    //     }catch(Exception ex){
-    //         System.debug(LoggingLevel.ERROR, 'Error deleting LTV records : ' + ex.getMessage());
-    //     }
-    // }
+
     private static void SalesOrderDML(String res) {
         RecentSalesOrders salesOrders = (RecentSalesOrders) JSON.deserialize(res.replaceAll('__c',''),RecentSalesOrders.class);
         List<RecentSalesOrders.Data> keys = salesOrders.data;

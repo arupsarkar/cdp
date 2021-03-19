@@ -35,8 +35,19 @@ export default class IdentityKeys extends NavigationMixin(LightningElement) {
         console.log('customer id ' , unifiedCustomerId);
         console.log('customer firstname 1 ' , unifiedCustomerFName);
         this.customerId = unifiedCustomerId;
-        console.log('Invoking ... ' , 'getUnifiedIdentityKeysSearchList -> Start');
-        getUnifiedIdentityKeysSearchList({searchParam : this.customerId})
+        console.log('Invoking ... ' , 'getUnifiedIdentityKeysSearchList -> Start 2');
+        //create a JSON object
+        var obj = new Object();
+        obj.unifiedId = event.detail.Id;
+        obj.firstName = event.detail.FirstName;
+        obj.lastName = event.detail.LastName;
+        obj.email = event.detail.EmailAddress;
+        obj.phone = event.detail.Telephone;
+        obj.status = event.detail.LoyaltyStatus;
+        obj.points = event.detail.LoyaltyPoints;
+        var jsonString= JSON.stringify(obj);
+        // send the JSON String
+        getUnifiedIdentityKeysSearchList({searchParam : jsonString})
         .then((data) => {
             this.isLoading = !this.isLoading;
             console.log('raw data', data);
