@@ -4,10 +4,8 @@
             <div class="slds-page-header__col-title">
                 <div class="slds-media">
                     <div class="slds-media__figure">
-                        <span class="slds-icon_container slds-icon-standard-opportunity">
-                            <svg class="slds-icon slds-page-header__icon" aria-hidden="true">
-                                <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#opportunity"></use>
-                            </svg>
+                        <span>
+                            <lightning-icon icon-name="standard:announcement" alternative-text="Approved" ></lightning-icon>
                         </span>
                     </div>
                 <div class="slds-media__body">
@@ -39,132 +37,120 @@
 
     <div class="c-container">
         <lightning-layout>
-            <lightning-layout-item padding="around-small">
-
-                <div class="slds-grid slds-gutters">
-                    <div class="slds-col">
-                        <lightning-card  variant="Narrow"  title="Lifetime Value" icon-name="custom:custom66">
-                            <div class="c-container">
-                                <lightning-layout>
-                                    <lightning-layout-item padding="around-small">
-                                        <div class="header-column">
-                                            <p class="field-title" title="Lifetime Spend">Lifetime Spend</p>
-                                            <p><lightning-formatted-number value={LifeTimeSpend} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
-                                        </div>                            
-                                    </lightning-layout-item>
-            
-                                    <lightning-layout-item padding="around-small">
-                                        <div class="header-column">
-                                            <p class="field-title" title="Lifetime Orders">Lifetime Orders</p>
-                                            <p>{LifeTimeOrders}</p>
-                                        </div>                            
-                                    </lightning-layout-item>
-            
-                                    <lightning-layout-item padding="around-small">
-                                        <div class="header-column">
-                                            <p class="field-title" title="Avg Order Amount">Avg Order Amount</p>
-                                            <p><lightning-formatted-number value={AvgOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
-                                        </div>                            
-                                    </lightning-layout-item>
-                                    
-                                    <lightning-layout-item padding="around-small">
-                                        <div class="header-column">
-                                            <p class="field-title" title="Lifetime Orders">Highest Order Amount</p>
-                                            <p><lightning-formatted-number value={HighestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
-                                        </div>                            
-                                    </lightning-layout-item>
-            
-                                    <lightning-layout-item padding="around-small">
-                                        <div class="header-column">
-                                            <p class="field-title" title="Lifetime Orders">Lowest Order Amount</p>
-                                            <p><lightning-formatted-number value={LowestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
-                                        </div>                            
-                                    </lightning-layout-item>
-
-                                </lightning-layout>                    
-                            </div>
-                        </lightning-card>
-                    </div>
-            
-                    <div class="slds-col">
-                        <lightning-card  variant="Narrow"  title="Loyalty Profile" icon-name="custom:custom68">
-                            <div class="c-container">
-                                <lightning-layout>
-                                    <lightning-layout-item padding="around-small">
-                                        <div class="header-column">
-                                            <p class="field-title" title="Points">Points</p>
-                                            <p>{ParentMessage.LoyaltyPoints}</p>
-                                        </div>
-                                    </lightning-layout-item>
-                                    <lightning-layout-item padding="around-small">
-                                        <div class="header-column">
-                                            <p class="field-title" title="Tier">Tier</p>
-                                            <p>{ParentMessage.LoyaltyStatus}</p>
-                                        </div>
-                                    </lightning-layout-item>                        
-                                </lightning-layout>
-                            </div>
+            <lightning-layout-item size="5" padding="around-small">                
+                <lightning-card variant="Narrow"  title="Lifetime Value" icon-name="custom:custom66">
+                    <div class="c-container">
+                        <lightning-layout>
+                            <lightning-layout-item>
+                                <div class="header-column">
+                                    <p class="field-title" title="Lifetime Spend">Lifetime Spend</p>
+                                    <p><lightning-formatted-number value={LifeTimeSpend} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
+                                </div>                            
+                            </lightning-layout-item>
+    
+                            <lightning-layout-item>
+                                <div class="header-column">
+                                    <p class="field-title" title="Lifetime Orders">Lifetime Orders</p>
+                                    <p>{LifeTimeOrders}</p>
+                                </div>                            
+                            </lightning-layout-item>
+    
+                            <lightning-layout-item>
+                                <div class="header-column">
+                                    <p class="field-title" title="Avg Order Amount">Avg Order Amount</p>
+                                    <p><lightning-formatted-number value={AvgOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
+                                </div>                            
+                            </lightning-layout-item>
                             
-                        </lightning-card>
-                    </div>
-            
-                    <div class="slds-col">
-                        <!-- Customer Preferences -->
-                        <lightning-card  variant="Narrow"  title="Customer Preferences" icon-name="standard:account">
-                            <div class="c-container">
-                                <lightning-layout>
-                                    <lightning-layout-item padding="around-small">
-                                        <div class="header-column">
-                                            <p class="field-title" title="Contact Point">Contact Point</p>
-                                            <p><lightning-formatted-phone value={ParentMessage.Phone}></lightning-formatted-phone></p>
-                                            <p><lightning-formatted-email value={ParentMessage.Email}></lightning-formatted-email></p>
-                                            <p><lightning-formatted-address
-                                                street={ParentMessage.Address1}
-                                                city={ParentMessage.City}
-                                                country={ParentMessage.Country}
-                                                province={ParentMessage.State}
-                                                postal-code={ParentMessage.PostalCode}
-                                            ></lightning-formatted-address></p>
-                                        </div>
-                                    </lightning-layout-item>
-                                    <lightning-layout-item padding="around-small">
-                                        <div class="header-column">
-                                            <p class="field-title" title="Status">Status</p>
-                                            <p>Opt-In</p>
-                                            <p>Opt-In</p>
-                                            <p>Opt-In</p>
-                                        </div>
-                                    </lightning-layout-item>                        
-                                </lightning-layout>                    
-                            </div>
-                        </lightning-card>
-                    </div>        
-            
-                </div>                
+                            <lightning-layout-item>
+                                <div class="header-column">
+                                    <p class="field-title" title="Lifetime Orders">Highest Order Amount</p>
+                                    <p><lightning-formatted-number value={HighestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
+                                </div>                            
+                            </lightning-layout-item>
+    
+                            <lightning-layout-item>
+                                <div class="header-column">
+                                    <p class="field-title" title="Lifetime Orders">Lowest Order Amount</p>
+                                    <p><lightning-formatted-number value={LowestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
+                                </div>                            
+                            </lightning-layout-item>
 
+                        </lightning-layout>                    
+                    </div>
+                </lightning-card>
+                
             </lightning-layout-item>
+
+            <lightning-layout-item size="2" padding="around-small">
+                <lightning-card variant="Narrow"  title="Loyalty Profile" icon-name="custom:custom68">
+                    <div class="c-container">
+                        <lightning-layout>
+                            <lightning-layout-item padding="around-small">
+                                <div class="header-column">
+                                    <p class="field-title" title="Points">Points</p>
+                                    <p>{ParentMessage.LoyaltyPoints}</p>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small">
+                                <div class="header-column">
+                                    <p class="field-title" title="Tier">Tier</p>
+                                    <p>{ParentMessage.LoyaltyStatus}</p>
+                                </div>
+                            </lightning-layout-item>                        
+                        </lightning-layout>
+                    </div>                    
+                </lightning-card>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="5" padding="around-small">
+                <lightning-card variant="Narrow"  title="Customer Preferences" icon-name="standard:account">
+                    <div class="c-container">
+                        <lightning-layout>
+                            <lightning-layout-item padding="around-small">
+                                <div class="header-column">
+                                    <p class="field-title" title="Contact Point">Contact Point</p>
+                                    <p><lightning-formatted-phone value={ParentMessage.Phone}></lightning-formatted-phone></p>
+                                    <p><lightning-formatted-email value={ParentMessage.Email}></lightning-formatted-email></p>
+                                    <p><lightning-formatted-address
+                                        street={ParentMessage.Address1}
+                                        city={ParentMessage.City}
+                                        country={ParentMessage.Country}
+                                        province={ParentMessage.State}
+                                        postal-code={ParentMessage.PostalCode}
+                                    ></lightning-formatted-address></p>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small">
+                                <div class="header-column">
+                                    <p class="field-title" title="Status">Status</p>
+                                    <p>Opt-In</p>
+                                    <p>Opt-In</p>
+                                    <p>Opt-In</p>
+                                </div>
+                            </lightning-layout-item>                        
+                        </lightning-layout>                    
+                    </div>                    
+                </lightning-card>
+            </lightning-layout-item>                        
         </lightning-layout>
 
     </div>
 
-    <!-- <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none"> -->
+    <div class="c-container">
+        <lightning-layout>
+            <lightning-layout-item size="4" padding="around-small">
+                <c-recent-sales-order></c-recent-sales-order>
+            </lightning-layout-item>
+            <lightning-layout-item size="4" padding="around-small">
+                <c-segment-membership></c-segment-membership>
+            </lightning-layout-item>
+            <lightning-layout-item size="4" padding="around-small">
+                <c-engagement-timeline></c-engagement-timeline>
+            </lightning-layout-item>            
+        </lightning-layout>
+    </div>
 
-    <!-- <div class="c-container"> -->
-        <div class="c-container">
-            <lightning-layout>
-                <lightning-layout-item size="4" padding="around-small">
-                    <c-recent-sales-order></c-recent-sales-order>
-                </lightning-layout-item>
-                <lightning-layout-item size="4" padding="around-small">
-                    <c-segment-membership></c-segment-membership>
-                </lightning-layout-item>
-                <lightning-layout-item size="4" padding="around-small">
-                    <c-engagement-timeline></c-engagement-timeline>
-                </lightning-layout-item>            
-            </lightning-layout>
-        </div>
-
-    <!-- </div> -->
 
     
 

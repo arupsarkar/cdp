@@ -1,8 +1,12 @@
 import { LightningElement ,wire, track } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 import getSegmentMemberships from '@salesforce/apex/SegmentMembershipController.getSegmentMemberships';
+import { subscribe, unsubscribe, onError, setDebugFlag, isEmpEnabled } from 'lightning/empApi';
 
 export default class SegmentMembership extends NavigationMixin(LightningElement) {
+    channelName = '/event/C360_Event__e';
+    isSubscribeDisabled = false;
+    isUnsubscribeDisabled = !this.isSubscribeDisabled;
 
     @track columns = [{
         label: 'Product',
@@ -11,6 +15,7 @@ export default class SegmentMembership extends NavigationMixin(LightningElement)
     }];
     @track segmentName;
     @track segmentMembershipList ;
+    @track notifier;
     url;
 
     connectedCallback() {
@@ -22,22 +27,15 @@ export default class SegmentMembership extends NavigationMixin(LightningElement)
             }
         };
         this[NavigationMixin.GenerateUrl](this.recentSegmentMembershipPageRef)
-            .then(url => this.url = url);        
+            .then(url => this.url = url); 
+            
+        //subscribe to events
+        this.handleSubscribe();            
+        // Register error listener       
+        this.registerErrorListener(); 
     }
 
-    @wire(getSegmentMemberships)
-    wiredSegmentMembershipList({
-        error,
-        data
-    }) {
-        if (data) {
-            console.log(data);
-            this.segmentName = data[0].Segment_Name__c;
-            this.segmentMembershipList = data;
-        } else if (error) {
-            this.error = error;
-        }
-    } 
+
     
     handleClick(evt) {
         // Stop the event's default behavior.
@@ -46,5 +44,67 @@ export default class SegmentMembership extends NavigationMixin(LightningElement)
         evt.stopPropagation();
         // Navigate to the Account Home page.
         this[NavigationMixin.Navigate](this.recentSegmentMembershipPageRef);
-    }      
+    }  
+    
+    // Handles subscribe button click
+    handleSubscribe() {
+        // Callback invoked whenever a new event message is received
+        const messageCallback = function(response) {
+            console.log('New message received: ', JSON.stringify(response));
+            // Response contains the payload of the new message received
+            this.notifier = JSON.stringify(response);
+            // getSegmentMemberships({})
+            //     .then((data) => {
+            //         if (data) {
+            //             console.log(data);
+            //             this.segmentName = data[0].Segment_Name__c;
+            //             this.segmentMembershipList = data;
+            //         }
+            //     })
+            //     .catch((error) => {
+            //         this.error = error;
+            //     })
+
+
+        };
+
+        // Invoke subscribe method of empApi. Pass reference to messageCallback
+        subscribe(this.channelName, -1, messageCallback).then(response => {
+            // Response contains the subscription information on subscribe call
+            console.log('Subscription request sent to: ', JSON.stringify(response.channel));
+            this.subscription = response;
+            this.toggleSubscribeButton(true);
+        });
+    }
+
+    toggleSubscribeButton(enableSubscribe) {
+        this.isSubscribeDisabled = enableSubscribe;
+        this.isUnsubscribeDisabled = !enableSubscribe;
+    }
+        
+    registerErrorListener() {
+        // Invoke onError empApi method
+        onError(error => {
+            console.log('Received error from server: ', JSON.stringify(error));
+            // Error contains the server-side error
+        });
+    }
+
+    getSegmentMembershipData() {
+        @wire(getSegmentMemberships)
+        wiredSegmentMembershipList({
+            error,
+            data
+        }) {
+            if (data) {
+                console.log(data);
+                this.segmentName = data[0].Segment_Name__c;
+                this.segmentMembershipList = data;
+            } else if (error) {
+                this.error = error;
+            }
+        } 
+    }
+    
+
 }

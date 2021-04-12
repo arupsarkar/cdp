@@ -9,6 +9,16 @@
                         <p>{segmentName}</p>
                     </div>
                 </lightning-layout-item>
+                <!-- <lightning-layout-item padding="arounf-small">
+                    <lightning-button variant="success" label="Subscribe" title="Subscribe"
+                    onclick={handleSubscribe} disabled={isSubscribeDisabled}
+                    class="slds-m-left_x-small"></lightning-button>
+                </lightning-layout-item> -->
+            </lightning-layout>
+            <lightning-layout>
+                <lightning-layout-item padding="around-small">
+                    {notifier}
+                </lightning-layout-item>
             </lightning-layout>
         </div>
 

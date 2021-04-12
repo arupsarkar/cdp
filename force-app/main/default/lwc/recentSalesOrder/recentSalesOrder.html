@@ -21,7 +21,11 @@
                         </div>
                         <div class="header-column">
                             <p>{purchaseDate}</p>
-                        </div>                                                                                
+                        </div>   
+                        <div class="header-column">
+                            <p>{notifier}</p>
+                        </div>                           
+                        
                     </lightning-layout-item>
                 </lightning-layout>
             </div>
@@ -38,6 +42,9 @@
         <p slot="footer">
             <a onclick={handleClick}>View All</a></p>
         </p>
+        <template if:true={notifier}>
+            {notifier}
+        </template>
     </lightning-card>
 
 </template>

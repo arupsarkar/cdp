@@ -254,27 +254,31 @@ public with sharing class UnifiedContactIdentityKeysController {
     }
 
     private static void LTVDML(String res) {
-        LTV LTVAttrs = (LTV) JSON.deserialize(res.replaceAll('__c',''),LTV.class); 
-        //insert into C360_LTV__C
-        List<LTV.Data> keys = LTVAttrs.Data;
-        List<C360_LTV__c> LTVs = new List<C360_LTV__c>();
-        for(LTV.Data key : keys) {
-            C360_LTV__c c360LTV = new C360_LTV__c();
-            c360LTV.Name = key.CustomerId;
-            c360LTV.CustomerId__c = key.CustomerId;
-            c360LTV.AvgOrderAmount__c = Decimal.valueOf(key.AvgOrderAmount);
-            c360LTV.HighestOrderAmount__c = Decimal.valueOf(key.HighestOrderAmount);
-            c360LTV.LowestOrderAmount__c = Decimal.valueOf(key.LowestOrderAmount);
-            c360LTV.TotalLifetimeOrders__c = Integer.valueOf(key.TotalLifetimeOrders);
-            c360LTV.TotalLifetimeSpend__c = Decimal.valueOf(key.TotalLifetimeSpend);
-            LTVs.add(c360LTV);
-        } 
-        try{
-            insert LTVs;
-        }catch(Exception ex){
-            System.debug(LoggingLevel.ERROR, 'Error inserting LTV records : ' + ex.getMessage());
-        }                    
+        System.debug(LoggingLevel.DEBUG, '---> output ' + res);
 
+
+        try{
+            LTV LTVAttrs = (LTV) JSON.deserialize(res.replaceAll('__c',''),LTV.class); 
+            List<LTV.Data> keys = LTVAttrs.Data;  
+            List<C360_LTV__c> LTVs = new List<C360_LTV__c>();
+            for(LTV.Data key : keys) {
+                C360_LTV__c c360LTV = new C360_LTV__c();
+                c360LTV.Name = key.CustomerId;
+                c360LTV.CustomerId__c = key.CustomerId;
+                c360LTV.AvgOrderAmount__c = Decimal.valueOf(key.AvgOrderAmount);
+                c360LTV.HighestOrderAmount__c = Decimal.valueOf(key.HighestOrderAmount);
+                c360LTV.LowestOrderAmount__c = Decimal.valueOf(key.LowestOrderAmount);
+                c360LTV.TotalLifetimeOrders__c = Integer.valueOf(key.TotalLifetimeOrders);
+                c360LTV.TotalLifetimeSpend__c = Decimal.valueOf(key.TotalLifetimeSpend);
+                LTVs.add(c360LTV);
+            }             
+
+            insert LTVs;
+        }catch(Exception ex) {
+            System.debug(LoggingLevel.ERROR, ex.getMessage());
+            System.debug(LoggingLevel.ERROR, ex.getLineNumber());
+            System.debug(LoggingLevel.ERROR, ex.getCause());
+        }
     }
 
     private static void SalesOrderDML(String res) {
