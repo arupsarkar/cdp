@@ -70,7 +70,7 @@ export default class RecentSalesOrder extends NavigationMixin(LightningElement) 
         data
     }) {
         if (data) {
-            console.log(data);
+            console.log('sales order data ---> ' , data);
             if(data){
                 this.productName = data[0].Product_Name__c != undefined ? data[0].Product_Name__c : 'No Product';
                 this.productPrice = data[0].Sale_Price_Amount__c != undefined ? data[0].Sale_Price_Amount__c : '0.00';
