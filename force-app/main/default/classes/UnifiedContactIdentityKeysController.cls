@@ -326,7 +326,7 @@ public with sharing class UnifiedContactIdentityKeysController {
         String result = segmentName;
         Integer underScore = segmentName.indexOf('_');
         if(underScore > 0) {
-            result = segmentName.substring(0, underScore-1);
+            result = segmentName.substring(0, underScore);
         }
 
         return result;
