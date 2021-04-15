@@ -39,7 +39,7 @@
         <lightning-layout>
             <lightning-layout-item size="5" padding="around-small">                
                 <lightning-card variant="Narrow"  title="Lifetime Value" icon-name="custom:custom66">
-                    <div class="c-container">
+                    <div class="slds-text-heading_medium" style="height:20px;margin:10px;margin-bottom:150px;">
                         <lightning-layout>
                             <lightning-layout-item>
                                 <div class="header-column">
@@ -84,44 +84,101 @@
 
             <lightning-layout-item size="2" padding="around-small">
                 <lightning-card variant="Narrow"  title="Loyalty Profile" icon-name="custom:custom68">
-                    <div class="c-container">
-                        <lightning-layout>
-                            <lightning-layout-item padding="around-small">
+                    <div style="height:20px;margin:10px;margin-bottom:150px;">
+                        <!-- <lightning-layout>
+                            <lightning-layout-item>
                                 <div class="header-column">
                                     <p class="field-title" title="Points">Points</p>
                                     <p>{ParentMessage.LoyaltyPoints}</p>
                                 </div>
                             </lightning-layout-item>
-                            <lightning-layout-item padding="around-small">
+                            <lightning-layout-item>
                                 <div class="header-column">
                                     <p class="field-title" title="Tier">Tier</p>
                                     <p>{ParentMessage.LoyaltyStatus}</p>
                                 </div>
                             </lightning-layout-item>                        
-                        </lightning-layout>
+                        </lightning-layout> -->
+                        <div class="lgc-bg">
+                            <lightning-tile>
+                                <lightning-layout horizontal-align={horizontalAlign}>
+                                    <lightning-layout-item size="4" padding="around-small">
+                                            <p class="field-title-2" title="Points">Points</p>                    
+                                    </lightning-layout-item>
+                                    <lightning-layout-item  padding="around-small">
+                                        <p class="slds-text-heading_medium">{ParentMessage.LoyaltyPoints}</p>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-tile>
+
+                        </div>
+
+                        <lightning-layout horizontal-align={horizontalAlign}>
+                            <lightning-layout-item size="4" padding="around-small">
+                                    <p class="field-title-2" title="Tier">Tier</p>                    
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small">
+                                <p class="slds-text-heading_medium">{ParentMessage.LoyaltyStatus}</p>
+                            </lightning-layout-item>
+                        </lightning-layout>                        
                     </div>                    
                 </lightning-card>
             </lightning-layout-item>
 
             <lightning-layout-item size="5" padding="around-small">
-                <lightning-card variant="Narrow"  title="Customer Preferences" icon-name="standard:account">
-                    <div class="c-container">
+                <lightning-card variant="Narrow" title="Customer Preferences" icon-name="standard:account">
+                    <div class="slds-text-heading_medium" style="height:20px;margin:10px;margin-bottom:150px;">
                         <lightning-layout>
-                            <lightning-layout-item padding="around-small">
+                            <lightning-layout-item>
                                 <div class="header-column">
                                     <p class="field-title" title="Contact Point">Contact Point</p>
-                                    <p><lightning-formatted-phone value={ParentMessage.Phone}></lightning-formatted-phone></p>
-                                    <p><lightning-formatted-email value={ParentMessage.Email}></lightning-formatted-email></p>
-                                    <p><lightning-formatted-address
-                                        street={ParentMessage.Address1}
-                                        city={ParentMessage.City}
-                                        country={ParentMessage.Country}
-                                        province={ParentMessage.State}
-                                        postal-code={ParentMessage.PostalCode}
-                                    ></lightning-formatted-address></p>
+                                    
+
+                                    <div class="lgc-bg">
+                                        <lightning-tile>
+                                            <lightning-layout>
+                                                <lightning-layout-item>
+                                                    <lightning-icon icon-name="custom:custom22"></lightning-icon>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item>
+                                                    <p>
+                                                        <lightning-formatted-phone value={ParentMessage.Phone}></lightning-formatted-phone>
+                                                    </p>                                                    
+                                                </lightning-layout-item>                                                                                                
+                                            </lightning-layout>
+                                        </lightning-tile>
+                                    </div>
+
+
+                                    <lightning-tile>
+                                        <lightning-layout>
+                                            <lightning-layout-item>
+                                                <lightning-icon icon-name="custom:custom23"></lightning-icon>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item>
+                                                <p>
+                                                    <lightning-formatted-email value={ParentMessage.Email} hide-icon></lightning-formatted-email>
+                                                </p>                                                    
+                                            </lightning-layout-item>                                                                                                
+                                        </lightning-layout>                                        
+                                    </lightning-tile>
+
+                                    <div class="lgc-bg">
+                                        <lightning-tile>
+                                            <p><lightning-formatted-address
+                                                street={ParentMessage.Address1}
+                                                city={ParentMessage.City}
+                                                country={ParentMessage.Country}
+                                                province={ParentMessage.State}
+                                                postal-code={ParentMessage.PostalCode}
+                                            ></lightning-formatted-address></p>
+                                        </lightning-tile>
+                                    </div>
+
+
                                 </div>
                             </lightning-layout-item>
-                            <lightning-layout-item padding="around-small">
+                            <lightning-layout-item>
                                 <div class="header-column">
                                     <p class="field-title" title="Status">Status</p>
                                     <p>Opt-In</p>
@@ -139,15 +196,19 @@
 
     <div class="c-container">
         <lightning-layout>
+            
             <lightning-layout-item size="4" padding="around-small">
                 <c-recent-sales-order></c-recent-sales-order>
             </lightning-layout-item>
+
             <lightning-layout-item size="4" padding="around-small">
                 <c-segment-membership></c-segment-membership>
             </lightning-layout-item>
+
             <lightning-layout-item size="4" padding="around-small">
                 <c-engagement-timeline></c-engagement-timeline>
             </lightning-layout-item>            
+
         </lightning-layout>
     </div>
 

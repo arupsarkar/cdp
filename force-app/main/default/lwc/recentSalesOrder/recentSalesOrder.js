@@ -38,8 +38,8 @@ export default class RecentSalesOrder extends NavigationMixin(LightningElement) 
     @track productPrice;
     @track purchaseDate;
     @track error;
-    @track salesOrderList ;
-
+    @track salesOrderList;
+    @track productLogo = 'https://www.northerntrailoutfitters.com/on/demandware.static/-/Sites-nto-apparel/default/dwf9d82181/images/large/2050857ATT-0.jpg';
     url;
 
     connectedCallback() {
@@ -72,9 +72,9 @@ export default class RecentSalesOrder extends NavigationMixin(LightningElement) 
         if (data) {
             console.log(data);
             if(data){
-                this.productName = data[0].Product_Name__c;
-                this.productPrice = data[0].Sale_Price_Amount__c;
-                this.purchaseDate = data[0].Purchase_Order_Date__c;
+                this.productName = data[0].Product_Name__c != undefined ? data[0].Product_Name__c : 'No Product';
+                this.productPrice = data[0].Sale_Price_Amount__c != undefined ? data[0].Sale_Price_Amount__c : '0.00';
+                this.purchaseDate = data[0].Purchase_Order_Date__c != undefined ? data[0].Purchase_Order_Date__c : 'No Date';
                 this.salesOrderList = data;
             }
 

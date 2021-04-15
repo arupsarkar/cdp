@@ -28,14 +28,27 @@ export default class SegmentMembership extends NavigationMixin(LightningElement)
         };
         this[NavigationMixin.GenerateUrl](this.recentSegmentMembershipPageRef)
             .then(url => this.url = url); 
-            
+        
+        this.getData();
         //subscribe to events
         this.handleSubscribe();            
         // Register error listener       
         this.registerErrorListener(); 
     }
 
-
+    // @wire(getSegmentMemberships)
+    // wiredSegmentMembershipList({
+    //     error,
+    //     data
+    // }) {
+    //     if (data) {
+    //         console.log(data);
+    //         this.segmentName = data[0].Segment_Name__c;
+    //         this.segmentMembershipList = data;
+    //     } else if (error) {
+    //         this.error = error;
+    //     }
+    // } 
     
     handleClick(evt) {
         // Stop the event's default behavior.
@@ -50,20 +63,11 @@ export default class SegmentMembership extends NavigationMixin(LightningElement)
     handleSubscribe() {
         // Callback invoked whenever a new event message is received
         const messageCallback = function(response) {
-            console.log('New message received: ', JSON.stringify(response));
+            console.log('Segment Membership PE fired: ', JSON.stringify(response));
             // Response contains the payload of the new message received
             this.notifier = JSON.stringify(response);
-            // getSegmentMemberships({})
-            //     .then((data) => {
-            //         if (data) {
-            //             console.log(data);
-            //             this.segmentName = data[0].Segment_Name__c;
-            //             this.segmentMembershipList = data;
-            //         }
-            //     })
-            //     .catch((error) => {
-            //         this.error = error;
-            //     })
+            // refresh LWC
+            this.getData();
 
 
         };
@@ -90,21 +94,17 @@ export default class SegmentMembership extends NavigationMixin(LightningElement)
         });
     }
 
-    getSegmentMembershipData() {
-        @wire(getSegmentMemberships)
-        wiredSegmentMembershipList({
-            error,
-            data
-        }) {
-            if (data) {
-                console.log(data);
-                this.segmentName = data[0].Segment_Name__c;
-                this.segmentMembershipList = data;
-            } else if (error) {
-                this.error = error;
-            }
-        } 
+    getData() {
+        getSegmentMemberships()
+            .then((data) => {
+                if (data) {
+                    console.log('segment data : ' + new Date(), JSON.stringify(data));
+                    this.segmentName = data[0].Segment_Name__c;
+                    this.segmentMembershipList = data;
+                }
+            })
+            .catch((error) => {
+                    this.error = error;
+            })            
     }
-    
-
 }

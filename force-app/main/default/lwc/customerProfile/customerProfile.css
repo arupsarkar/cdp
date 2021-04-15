@@ -11,3 +11,16 @@
   color: #54698d;
   margin-bottom: 0.25rem;
 }
+.field-title-2 {
+  font-size: 1.25rem;
+  line-height: 1.25;
+  color: #54698d;
+  margin-bottom: 0.25rem;
+}
+.lgc-bg {
+  background-color: rgb(242, 242, 242);
+}
+
+.lgc-bg-inverse {
+  background-color: rgb(22, 50, 92);
+}
