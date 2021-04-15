@@ -56,32 +56,50 @@ export default class RecentSalesOrder extends NavigationMixin(LightningElement) 
         };
         this[NavigationMixin.GenerateUrl](this.recentSalesOrderPageRef)
             .then(url => this.url = url);
-
+        
+        this.getData();
         //subscribe to events
         this.handleSubscribe();            
         // Register error listener       
         this.registerErrorListener();             
     }
 
+    getData() {
+        getRecentSalesOrders()
+            .then((data) => {
+                if (data) {
+                    console.log('recent sales order : ' + new Date(), JSON.stringify(data));
+                    this.productName = data[0].Product_Name__c != undefined ? data[0].Product_Name__c : 'No Product';
+                    this.productPrice = data[0].Sale_Price_Amount__c != undefined ? data[0].Sale_Price_Amount__c : '0.00';
+                    this.purchaseDate = data[0].Purchase_Order_Date__c != undefined ? data[0].Purchase_Order_Date__c : 'No Date';
+                    this.salesOrderList = data;
+                }
+            })
+            .catch((error) => {
+                    this.error = 'Data not available';
+                    console.log('Sales Order Error ---> ', error)
+            });            
+    }    
 
-    @wire(getRecentSalesOrders)
-    wiredSalesOrdersList({
-        error,
-        data
-    }) {
-        if (data) {
-            console.log('sales order data ---> ' , data);
-            if(data){
-                this.productName = data[0].Product_Name__c != undefined ? data[0].Product_Name__c : 'No Product';
-                this.productPrice = data[0].Sale_Price_Amount__c != undefined ? data[0].Sale_Price_Amount__c : '0.00';
-                this.purchaseDate = data[0].Purchase_Order_Date__c != undefined ? data[0].Purchase_Order_Date__c : 'No Date';
-                this.salesOrderList = data;
-            }
 
-        } else if (error) {
-            this.error = error;
-        }
-    }
+    // @wire(getRecentSalesOrders)
+    // wiredSalesOrdersList({
+    //     error,
+    //     data
+    // }) {
+    //     if (data) {
+    //         console.log('sales order data ---> ' , data.length);
+    //         if(data){
+    //             this.productName = data[0].Product_Name__c != undefined ? data[0].Product_Name__c : 'No Product';
+    //             this.productPrice = data[0].Sale_Price_Amount__c != undefined ? data[0].Sale_Price_Amount__c : '0.00';
+    //             this.purchaseDate = data[0].Purchase_Order_Date__c != undefined ? data[0].Purchase_Order_Date__c : 'No Date';
+    //             this.salesOrderList = data;
+    //         }
+
+    //     } else if (error) {
+    //         this.error = error;
+    //     }
+    // }
 
     handleClick(evt) {
         // Stop the event's default behavior.
@@ -102,6 +120,7 @@ export default class RecentSalesOrder extends NavigationMixin(LightningElement) 
             var data = eventObj.data;
             console.log(new Date(), '------- sales order payload start------');
             console.log(data.payload[0]);
+            this.getData();
             console.log(new Date(), '------- sales order payload end ------');
             // Response contains the payload of the new message received
             this.notifier = JSON.stringify(response);
