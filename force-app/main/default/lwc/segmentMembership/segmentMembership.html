@@ -1,36 +1,27 @@
 <template>
-    <lightning-card icon-name="standard:contact" title="Segment Membership">
-
-
-        <div class="c-container">
-            <lightning-layout>
-                <lightning-layout-item padding="around-small">
-                    <div class="header-column">
-                        <p>{segmentName}</p>
-                    </div>
-                </lightning-layout-item>
-                <!-- <lightning-layout-item padding="arounf-small">
-                    <lightning-button variant="success" label="Subscribe" title="Subscribe"
-                    onclick={handleSubscribe} disabled={isSubscribeDisabled}
-                    class="slds-m-left_x-small"></lightning-button>
-                </lightning-layout-item> -->
-            </lightning-layout>
-            <lightning-layout>
-                <lightning-layout-item padding="around-small">
-                    {notifier}
-                </lightning-layout-item>
-            </lightning-layout>
-        </div>
-
-
-        <template if:true={error}>
-            {error}
-        </template>
-        <p slot="footer">
-            <a onclick={handleClick}>View All</a></p>
-        </p>            
-    </lightning-card>
-
-
-
+    
+        <lightning-card icon-name="standard:contact" title="Segment Membership">
+            <div class="slds-scrollable" style="height:10rem;width:rem">
+                <div class="slds-text-longform" style="width:50%">
+                    <lightning-layout>
+                        <lightning-layout-item padding="around-small">
+                            <div class="header-column">
+                                <p>{segmentName}</p>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <lightning-layout>
+                        <lightning-layout-item padding="around-small">
+                            {notifier}
+                        </lightning-layout-item>
+                    </lightning-layout>                    
+                    <template if:true={error}>
+                        {error}
+                    </template>                    
+                </div>
+            </div>
+            <p slot="footer">
+                <a onclick={handleClick}>View All</a></p>
+            </p>            
+        </lightning-card>
 </template>

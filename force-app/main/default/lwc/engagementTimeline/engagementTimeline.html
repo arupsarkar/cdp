@@ -1,56 +1,58 @@
 <template>
 
-    <lightning-card icon-name="custom:custom14" title="Engagement Timeline">
-
-        <ul class="slds-timeline"> 
-            <template for:each={engagementList} for:item="engagement">
-                <li key={engagement.Id}>
-                    <div class="slds-timeline__item_expandable slds-timeline__item_email">
-                        <div class="slds-media">
-                            <div class="slds-media__figure">
-                                <span>
-                                    <lightning-icon icon-name="standard:announcement" alternative-text="Approved" ></lightning-icon>
-                                </span>                                    
-                                <span class="slds-assistive-text">{engagement.EngagementChannel__c} {engagement.EngagementChannel__c}</span>
-                            </div>
-                            
-                            <div class="slds-media__body">
-                                <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
-                                <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
-                                    <h3 class="slds-truncate" title="Re: Mobile conversation on Monday with the new global team">
-                                        <lightning-button data-id={engagement.Id} label={engagement.EngagementChannel__c} onclick={handleNavigateByDataAttribute}></lightning-button>
-                                    </h3>
-
+        <lightning-card icon-name="custom:custom14" title="Engagement Timeline">
+            <div class="slds-scrollable" style="height:10rem;width:rem">
+                <div class="slds-text-longform" style="width:100%">
+                    <ul class="slds-timeline"> 
+                        <template for:each={engagementList} for:item="engagement">
+                            <li key={engagement.Id}>
+                                <div class="slds-timeline__item_expandable slds-timeline__item_email">
+                                    <div class="slds-media">
+                                        <div class="slds-media__figure">
+                                            <span>
+                                                <lightning-icon icon-name="standard:announcement" alternative-text="Approved" ></lightning-icon>
+                                            </span>                                    
+                                            <span class="slds-assistive-text">{engagement.EngagementChannel__c} {engagement.EngagementChannel__c}</span>
+                                        </div>
+                                        
+                                        <div class="slds-media__body">
+                                            <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                                            <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                                                <h3 class="slds-truncate" title="Re: Mobile conversation on Monday with the new global team">
+                                                    <lightning-button data-id={engagement.Id} label={engagement.EngagementChannel__c} onclick={handleNavigateByDataAttribute}></lightning-button>
+                                                </h3>
+            
+                                            </div>
+                                            <div class="slds-timeline__actions slds-timeline__actions_inline">
+                                                <p class="slds-timeline__date">{engagement.EngagementDateTime__c}</p>
+                                                <span>
+                                                    <lightning-icon icon-name="utility:date_time" alternative-text="Approved" ></lightning-icon>
+                                                </span>
+                                            </div>
+                                            </div>
+                                            <p class="slds-m-horizontal_xx-small">
+                                                <span>
+                                                    {engagement.EngagementEvent__c}                                        
+                                                </span>
+                                            </p>
+                                        </div>                            
+            
+                                    </div>
                                 </div>
-                                <div class="slds-timeline__actions slds-timeline__actions_inline">
-                                    <p class="slds-timeline__date">{engagement.EngagementDateTime__c}</p>
-                                    <span>
-                                        <lightning-icon icon-name="utility:date_time" alternative-text="Approved" ></lightning-icon>
-                                    </span>
-                                </div>
-                                </div>
-                                <p class="slds-m-horizontal_xx-small">
-                                    <span>
-                                        {engagement.EngagementEvent__c}                                        
-                                    </span>
-                                </p>
-                            </div>                            
-
-                        </div>
-                    </div>
+                                
+                            </li>
+                        </template>
+                    </ul>   
                     
-                </li>
-            </template>
-        </ul>   
-        
-        <template if:true={error}>
-            {error}
-        </template>
-        <p slot="footer">
-            <a onclick={handleClick}>View All</a></p>
-        </p>        
-    </lightning-card>
+                    <template if:true={error}>
+                        {error}
+                    </template>
+                </div>
+            </div>
 
-
+            <p slot="footer">
+                <a onclick={handleClick}>View All</a></p>
+            </p>        
+        </lightning-card>        
 
 </template>
