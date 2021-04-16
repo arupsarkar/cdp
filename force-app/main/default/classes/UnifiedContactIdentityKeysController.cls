@@ -87,7 +87,7 @@ public with sharing class UnifiedContactIdentityKeysController {
         req1.setHeader('Content-Type', 'application/json;charset=UTF-8');
         req1.setHeader('Authorization', 'Bearer ' + cdp_token);
         req1.setTimeout(20000);        
-        req1.setEndpoint('https://g4zt8nl0gfst8mjtgrst8yjzmm.c360a.salesforce.com/api/v1/insight/calculated-insights/Purchase_Insights__cio?filters=[CustomerId__c='+unifiedIndividualId+']');        
+        req1.setEndpoint('https://g4zt8nl0gfst8mjtgrst8yjzmm.c360a.salesforce.com/api/v1/insight/calculated-insights/Purchase_Insights__cio?filters=[CustomerId__c='+unifiedIndividualId+']' + '&dimensions=CustomerId__c');
         HttpResponse res1 = h1.send(req1);
         System.debug(LoggingLevel.DEBUG, '>>> LTV output ' + res1.getBody());
         objectValues.put('LTV', res1.getBody());
@@ -117,7 +117,7 @@ public with sharing class UnifiedContactIdentityKeysController {
         //1. WebEngagement -Start
 
         String query3 = '{' + '"sql"' + ':' + '"select UI.Id__c as UnifiedId, WE.EngagementChannelId__c as EngagementChannel,WE.DeviceTypeTxt__c as EngagementDevice,WE.EngagementChannelActionId__c as ' + 
-                        'EngagementEvent,WE.EngagementDateTm__c as EngagementTime,GP.ProductSKU__c,CC.contentname__c as Content from UnifiedIndividual__dlm UI INNER JOIN IndividualIdentityLink__dlm IIL on UI.Id__c =  ' +
+                        'EngagementEvent,WE.EngagementDateTm__c as EngagementTime,GP.ProductSKU__c,CC.contentname__c as Content, WE.DomainName__c, WE.Referrer_Medium__c, WE.Referrer_Campaign__c,WE.Referrer_Source__c,WE.DeviceOSName__c, GP.Product_Name__c from UnifiedIndividual__dlm UI INNER JOIN IndividualIdentityLink__dlm IIL on UI.Id__c =  ' +
                         'IIL.UnifiedRecordId__c INNER JOIN WebsiteEngagement__dlm WE on IIL.SourceRecordId__c = WE.IndividualId__c INNER JOIN GoodsProduct__dlm GP on WE.SKU__c = GP.ProductSKU__c INNER JOIN ' + 
                         'Content_Catalog__dlm CC on CC.contentid__c = WE.Content_ID__c where UI.Id__c = \'' + unifiedIndividualId + '\'' + 
                         ' Order by 5 DESC' +
@@ -268,8 +268,8 @@ public with sharing class UnifiedContactIdentityKeysController {
                 c360LTV.AvgOrderAmount__c = Decimal.valueOf(key.AvgOrderAmount);
                 c360LTV.HighestOrderAmount__c = Decimal.valueOf(key.HighestOrderAmount);
                 c360LTV.LowestOrderAmount__c = Decimal.valueOf(key.LowestOrderAmount);
-                c360LTV.TotalLifetimeOrders__c = Integer.valueOf(key.TotalLifetimeOrders);
-                c360LTV.TotalLifetimeSpend__c = Decimal.valueOf(key.TotalLifetimeSpend);
+                c360LTV.TotalLifetimeOrders__c = Integer.valueOf(key.TotalOrders);
+                c360LTV.TotalLifetimeSpend__c = Decimal.valueOf(key.TotalSpend);
                 LTVs.add(c360LTV);
             }             
 
@@ -350,6 +350,13 @@ public with sharing class UnifiedContactIdentityKeysController {
             c360web.EngagementDateTime__c = key.EngagementTime != null ? Datetime.valueOf(key.EngagementTime.replace('T',' ')) : null;
             c360web.EngagementEvent__c = key.EngagementEvent;
             c360web.ProductSKU__c = key.ProductSKU;
+            c360web.Domain__c = key.DomainName;
+            // c360web.Referrer_Medium__c = key.Referrer_Medium;
+            // c360web.Referrer_Campaign__c = key.Referrer_Campaign;
+            // c360web.Referrer_Source__c = key.Referrer_Source;
+            // c360web.Device_OS_Name__c = key.DeviceOSName;
+            // c360web.Product_Name__c = key.Product_Name;
+
             engagementList.add(c360web);
         } 
         try{

@@ -62,7 +62,7 @@ export default class SegmentMembership extends NavigationMixin(LightningElement)
     // Handles subscribe button click
     handleSubscribe() {
         // Callback invoked whenever a new event message is received
-        const messageCallback = function(response) {
+        const messageCallback =  (response) => {
             console.log('Segment Membership PE fired: ', JSON.stringify(response));
             // Response contains the payload of the new message received
             this.notifier = JSON.stringify(response);

@@ -1,8 +1,8 @@
 public class LTV {
 
 	public class Data {
-		public String TotalLifetimeOrders;
-		public String TotalLifetimeSpend;
+		public String TotalOrders;
+		public String TotalSpend;
 		public String CustomerId;
 		public String HighestOrderAmount;
 		public String AvgOrderAmount;
