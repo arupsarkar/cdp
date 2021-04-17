@@ -37,20 +37,6 @@ export default class SegmentMembership extends NavigationMixin(LightningElement)
         // Register error listener       
         this.registerErrorListener(); 
     }
-
-    // @wire(getSegmentMemberships)
-    // wiredSegmentMembershipList({
-    //     error,
-    //     data
-    // }) {
-    //     if (data) {
-    //         console.log(data);
-    //         this.segmentName = data[0].Segment_Name__c;
-    //         this.segmentMembershipList = data;
-    //     } else if (error) {
-    //         this.error = error;
-    //     }
-    // } 
     
     handleClick(evt) {
         // Stop the event's default behavior.

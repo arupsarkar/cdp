@@ -1,6 +1,49 @@
 <template>
+    <lightning-card icon-name="custom:custom14" title="Engagement Timeline">
+        <div class="slds-scrollable" style="height:10rem;width:rem">
+            <div class="slds-text-longform" style="width:100%">
+                <lightning-tabset variant="scoped">
+                    <lightning-tab label="Web">
+                        <div class="slds-p-horizontal_xxx-small">
+                            <lightning-datatable
+                                key-field="Id"
+                                data={webEngagementList}
+                                columns={columns}
+                                >
+                            </lightning-datatable>
+                        </div>
+                    </lightning-tab>
+                    <lightning-tab label="App">
+                        <div class="slds-p-horizontal_xxx-small">
+                            <lightning-datatable
+                                key-field="Id"
+                                data={appEngagementList}
+                                columns={columns}
+                                >
+                            </lightning-datatable>
+                        </div>
+                    </lightning-tab>
+                    <lightning-tab label="Email">
+                        <div class="slds-p-horizontal_xxx-small">
+                            <lightning-datatable
+                                key-field="Id"
+                                data={emailEngagementList}
+                                columns={columns}
+                                >
+                            </lightning-datatable>
+                        </div>                
+                    </lightning-tab>
+                </lightning-tabset>
+            </div>
 
-        <lightning-card icon-name="custom:custom14" title="Engagement Timeline">
+        </div>   
+        <p slot="footer">
+            <a onclick={handleClick}>View All</a></p>
+        </p>                     
+    </lightning-card>
+
+
+        <!-- <lightning-card icon-name="custom:custom14" title="Engagement Timeline">
             <div class="slds-scrollable" style="height:10rem;width:rem">
                 <div class="slds-text-longform" style="width:100%">
                     <ul class="slds-timeline"> 
@@ -53,6 +96,6 @@
             <p slot="footer">
                 <a onclick={handleClick}>View All</a></p>
             </p>        
-        </lightning-card>        
+        </lightning-card>         -->
 
 </template>
