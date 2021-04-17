@@ -9,6 +9,23 @@
                                 <p>Last 30 days</p>
                             </div>                            
                         </lightning-layout-item>
+                        <template if:true={refresh}>
+                            <lightning-layout-item padding="around-small">
+                                <lightning-dynamic-icon 
+                                    type="ellie" 
+                                    alternative-text="Ellie intelligence">
+                                </lightning-dynamic-icon>
+                            </lightning-layout-item>
+                        </template>
+                        <template if:false={refresh}>
+                            <lightning-layout-item padding="around-small">
+                                <lightning-dynamic-icon 
+                                    type="eq" 
+                                    alternative-text="eq intelligence">
+                                </lightning-dynamic-icon>
+                            </lightning-layout-item>
+                        </template>
+                        
                     </lightning-layout>
                 </div>
                 <template if:true={salesOrderList}>

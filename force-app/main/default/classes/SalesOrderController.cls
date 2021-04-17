@@ -3,7 +3,7 @@ public with sharing class SalesOrderController {
 
     }
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled
     public static LifeTimeDataAttributes[] getSalesOrders(String searchParam) {
         Set<String> searchParams = new Set<String>();
         searchParams.add(searchParam);

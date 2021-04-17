@@ -39,10 +39,13 @@ export default class RecentSalesOrder extends NavigationMixin(LightningElement) 
     @track purchaseDate;
     @track error;
     @track salesOrderList;
+    @track refresh;
     @track productLogo = 'https://www.northerntrailoutfitters.com/on/demandware.static/-/Sites-nto-apparel/default/dwf9d82181/images/large/2050857ATT-0.jpg';
     url;
 
     connectedCallback() {
+
+        this.refresh = false;
         // Store the PageReference in a variable to use in handleClick.
         // This is a plain Javascript object that conforms to the
         // PageReference type by including 'type' and 'attributes' properties.
@@ -56,7 +59,7 @@ export default class RecentSalesOrder extends NavigationMixin(LightningElement) 
         };
         this[NavigationMixin.GenerateUrl](this.recentSalesOrderPageRef)
             .then(url => this.url = url);
-        
+
         this.getData();
         //subscribe to events
         this.handleSubscribe();            
@@ -114,12 +117,16 @@ export default class RecentSalesOrder extends NavigationMixin(LightningElement) 
     // Handles subscribe button click
     handleSubscribe() {
         // Callback invoked whenever a new event message is received
-        const messageCallback = function(response) {
+        const messageCallback = (response) => {
             console.log('sales order: ', JSON.stringify(response));
-            var eventObj = JSON.parse(response);
-            var data = eventObj.data;
             console.log(new Date(), '------- sales order payload start------');
-            console.log(data.payload[0]);
+            console.log(response.data.payload.Category__c);
+            if(response.data.payload.Category__c == 'Sales Order') {
+                console.log(new Date(), '------- before sales order refresh start------' + this.refresh);
+                this.refresh = true;
+                this.getData();
+                console.log(new Date(), '------- after sales order refresh start------' + this.refresh);
+            }
             this.getData();
             console.log(new Date(), '------- sales order payload end ------');
             // Response contains the payload of the new message received
@@ -147,6 +154,5 @@ export default class RecentSalesOrder extends NavigationMixin(LightningElement) 
             console.log('Received error from server: ', JSON.stringify(error));
             // Error contains the server-side error
         });
-    }    
-
+    }  
 }

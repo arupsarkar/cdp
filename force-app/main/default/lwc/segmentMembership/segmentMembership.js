@@ -16,9 +16,11 @@ export default class SegmentMembership extends NavigationMixin(LightningElement)
     @track segmentName;
     @track segmentMembershipList ;
     @track notifier;
+    @track refresh;
     url;
 
     connectedCallback() {
+        this.refresh = false;
         this.recentSegmentMembershipPageRef = {
             type: 'standard__objectPage',
             attributes: {
@@ -66,6 +68,7 @@ export default class SegmentMembership extends NavigationMixin(LightningElement)
             console.log('Segment Membership PE fired: ', JSON.stringify(response));
             // Response contains the payload of the new message received
             this.notifier = JSON.stringify(response);
+            this.refresh = true;
             // refresh LWC
             this.getData();
 
@@ -107,4 +110,5 @@ export default class SegmentMembership extends NavigationMixin(LightningElement)
                     this.error = error;
             })            
     }
+
 }

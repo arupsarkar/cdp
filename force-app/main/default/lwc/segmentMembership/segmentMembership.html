@@ -2,8 +2,37 @@
     
         <lightning-card icon-name="standard:contact" title="Segment Membership">
             <div class="slds-scrollable" style="height:10rem;width:rem">
-                <div class="slds-text-longform" style="width:50%">
-                    <lightning-layout>
+                <div class="slds-text-longform" style="width:95%">
+                    <div class="slds-p-left_large">
+                        <template if:true={refresh}>
+                            <lightning-layout-item padding="around-small">
+                                <lightning-dynamic-icon 
+                                    type="ellie" 
+                                    alternative-text="Ellie intelligence">
+                                </lightning-dynamic-icon>
+                            </lightning-layout-item>
+                        </template>
+                        <template if:false={refresh}>
+                            <lightning-layout-item padding="around-small">
+                                <lightning-dynamic-icon 
+                                    type="eq" 
+                                    alternative-text="eq intelligence">
+                                </lightning-dynamic-icon>
+                            </lightning-layout-item>
+                        </template>
+                    </div>
+                    
+                    <div class="slds-p-left_large">
+                        <lightning-datatable
+                            key-field="Id"
+                            data={segmentMembershipList}
+                            columns={columns}
+                            hidecheckboxcolumn="true"
+                            >
+                        </lightning-datatable>
+                    </div>
+                    
+                    <!-- <lightning-layout>
                         <lightning-layout-item padding="around-small">
                             <div class="header-column">
                                 <p>{segmentName}</p>
@@ -14,7 +43,7 @@
                         <lightning-layout-item padding="around-small">
                             {notifier}
                         </lightning-layout-item>
-                    </lightning-layout>                    
+                    </lightning-layout>                     -->
                     <template if:true={error}>
                         {error}
                     </template>                    
