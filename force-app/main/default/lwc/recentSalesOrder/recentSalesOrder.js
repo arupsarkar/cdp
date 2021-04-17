@@ -80,29 +80,11 @@ export default class RecentSalesOrder extends NavigationMixin(LightningElement) 
             })
             .catch((error) => {
                     this.error = 'Data not available';
+                    this.salesOrderList = undefined;
+                    this.refresh = true;
                     console.log('Sales Order Error ---> ', error)
             });            
     }    
-
-
-    // @wire(getRecentSalesOrders)
-    // wiredSalesOrdersList({
-    //     error,
-    //     data
-    // }) {
-    //     if (data) {
-    //         console.log('sales order data ---> ' , data.length);
-    //         if(data){
-    //             this.productName = data[0].Product_Name__c != undefined ? data[0].Product_Name__c : 'No Product';
-    //             this.productPrice = data[0].Sale_Price_Amount__c != undefined ? data[0].Sale_Price_Amount__c : '0.00';
-    //             this.purchaseDate = data[0].Purchase_Order_Date__c != undefined ? data[0].Purchase_Order_Date__c : 'No Date';
-    //             this.salesOrderList = data;
-    //         }
-
-    //     } else if (error) {
-    //         this.error = error;
-    //     }
-    // }
 
     handleClick(evt) {
         // Stop the event's default behavior.
