@@ -3,7 +3,7 @@ import { NavigationMixin } from 'lightning/navigation';
 import getWebRecords from '@salesforce/apex/EngagementTimelineController.getWebRecords';
 import getAppRecords from '@salesforce/apex/EngagementTimelineController.getAppRecords';
 import getEmailRecords from '@salesforce/apex/EngagementTimelineController.getEmailRecords';
-
+import { subscribe, unsubscribe, onError, setDebugFlag, isEmpEnabled } from 'lightning/empApi';
 
 
 
@@ -11,7 +11,11 @@ export default class EngagementTimeline extends NavigationMixin(LightningElement
 
     @track webEngagementList ; 
     @track appEngagementList ; 
-    @track emailEngagementList ;        
+    @track emailEngagementList ; 
+    channelName = '/event/C360_Event__e';
+    isSubscribeDisabled = false;
+    isUnsubscribeDisabled = !this.isSubscribeDisabled;  
+    @track refresh;         
 
     @track webColumns = [
         { label: 'Date Time', fieldName: 'EngagementDateTime__c', type: 'date', sortable: true},
@@ -43,9 +47,13 @@ export default class EngagementTimeline extends NavigationMixin(LightningElement
         this[NavigationMixin.GenerateUrl](this.engagementPageRef)
             .then(url => this.url = url);
 
+        this.refresh = false;
         this.getWebData();
         this.getAppData();
         this.getEmailData();
+        this.handleSubscribe();            
+        // Register error listener       
+        this.registerErrorListener();         
     }
 
     // @wire(getEngagementRecords)
@@ -121,6 +129,47 @@ export default class EngagementTimeline extends NavigationMixin(LightningElement
                     this.error = 'Email Data not available';
                     console.log('email Error ---> ', error)
             });
-    }        
+    }   
+    
+    // Handles subscribe button click
+    handleSubscribe() {
+        // Callback invoked whenever a new event message is received
+        const messageCallback =  (response) => {
+            console.log('Engagement PE fired : ', JSON.stringify(response));
+            // Response contains the payload of the new message received
+            this.notifier = JSON.stringify(response);
+            // refresh LWC
+            if(response.data.payload.Category__c == 'Engagement') {
+                this.getWebData();
+                this.getAppData();
+                this.getEmailData();
+                this.refresh = true;
+            }
+            
+
+
+        };
+
+        // Invoke subscribe method of empApi. Pass reference to messageCallback
+        subscribe(this.channelName, -1, messageCallback).then(response => {
+            // Response contains the subscription information on subscribe call
+            console.log('Subscription request sent to: ', JSON.stringify(response.channel));
+            this.subscription = response;
+            this.toggleSubscribeButton(true);
+        });
+    }
+
+    toggleSubscribeButton(enableSubscribe) {
+        this.isSubscribeDisabled = enableSubscribe;
+        this.isUnsubscribeDisabled = !enableSubscribe;
+    }
+        
+    registerErrorListener() {
+        // Invoke onError empApi method
+        onError(error => {
+            console.log('Received error from server: ', JSON.stringify(error));
+            // Error contains the server-side error
+        });
+    }    
 
 }

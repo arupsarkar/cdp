@@ -56,7 +56,10 @@ export default class SegmentMembership extends NavigationMixin(LightningElement)
             this.notifier = JSON.stringify(response);
             this.refresh = true;
             // refresh LWC
-            this.getData();
+            if(response.data.payload.Category__c == 'Segmentation') {
+                this.getData();
+            }
+            
 
 
         };
