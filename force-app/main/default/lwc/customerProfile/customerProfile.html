@@ -167,50 +167,52 @@
 
                                     <div class="lgc-bg">
                                         <lightning-tile>
-                                            <lightning-layout>
-                                                <lightning-layout-item>
-                                                    <lightning-icon icon-name="custom:custom22"></lightning-icon>
-                                                </lightning-layout-item>
-                                                <lightning-layout-item>
-                                                    <div class="slds-p-left_xx-small">
-                                                        <p>
-                                                            <lightning-formatted-phone value={ParentMessage.Phone}></lightning-formatted-phone>
-                                                        </p>
-                                                    </div>
-                                                    
-                                                </lightning-layout-item>                                                                                                
-                                            </lightning-layout>
+                                            <template if:true={showPhoneData}>
+                                                <lightning-layout>
+                                                    <lightning-layout-item padding="around small">
+                                                        <lightning-icon icon-name="custom:custom22"></lightning-icon>
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item padding="around small">
+                                                        <lightning-formatted-phone value={ParentMessage.Phone}></lightning-formatted-phone>
+                                                    </lightning-layout-item>                                                                                                
+                                                </lightning-layout>
+                                            </template>
+
                                         </lightning-tile>
                                     </div>
 
-
-                                    <lightning-tile>
-                                        <lightning-layout>
-                                            <lightning-layout-item>
-                                                <lightning-icon icon-name="custom:custom23"></lightning-icon>
-                                            </lightning-layout-item>
-                                            <lightning-layout-item>
-                                                <div class="slds-p-left_xx-small">
-                                                    <p>
-                                                        <lightning-formatted-email value={ParentMessage.Email} hide-icon></lightning-formatted-email>
-                                                    </p>
-                                                </div>
-                                                    
-                                            </lightning-layout-item>                                                                                                
-                                        </lightning-layout>                                        
-                                    </lightning-tile>
-
-                                    <div class="lgc-bg">
+                                    <template if:true={showEmailData}>
                                         <lightning-tile>
-                                            <p><lightning-formatted-address
-                                                street={ParentMessage.Address1}
-                                                city={ParentMessage.City}
-                                                country={ParentMessage.Country}
-                                                province={ParentMessage.State}
-                                                postal-code={ParentMessage.PostalCode}
-                                            ></lightning-formatted-address></p>
+                                            <lightning-layout>
+                                                <lightning-layout-item padding="around small">
+                                                    <lightning-icon icon-name="custom:custom23"></lightning-icon>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around small">
+                                                    <lightning-formatted-email value={ParentMessage.Email} hide-icon></lightning-formatted-email>
+                                                </lightning-layout-item>                                                                                                
+                                            </lightning-layout>                                        
                                         </lightning-tile>
-                                    </div>
+                                    </template>
+
+                                    <template if:true={showAddressData}>
+                                        <div class="lgc-bg">
+                                            <lightning-tile>
+                                                <lightning-layout>
+                                                    <lightning-layout-item padding="around small">
+                                                        <p><lightning-formatted-address
+                                                            street={ParentMessage.Address1}
+                                                            city={ParentMessage.City}
+                                                            country={ParentMessage.Country}
+                                                            province={ParentMessage.State}
+                                                            postal-code={ParentMessage.PostalCode}
+                                                        ></lightning-formatted-address></p>
+                                                    </lightning-layout-item>
+                                                </lightning-layout>
+    
+                                            </lightning-tile>
+                                        </div>
+                                    </template>
+
 
 
                                 </div>
@@ -218,9 +220,16 @@
                             <lightning-layout-item>
                                 <div class="header-column">
                                     <p class="field-title" title="Status">Status</p>
-                                    <p>Opt-In</p>
-                                    <p>Opt-In</p>
-                                    <p>Opt-In</p>
+                                    <template if:true={showPhoneData}>
+                                        <p>Opt-In</p>
+                                    </template>
+                                    <template if:true={showEmailData}>
+                                        <p class="slds-p-top_xxx-small">Opt-In</p>
+                                    </template> 
+                                    <template if:true={showAddressData}>
+                                        <p class="slds-p-top_x-small">Opt-In</p>
+                                    </template>                                                                       
+                                    
                                 </div>
                             </lightning-layout-item>                        
                         </lightning-layout>                    

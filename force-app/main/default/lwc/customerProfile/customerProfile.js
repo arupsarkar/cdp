@@ -12,6 +12,9 @@ import getSalesOrders from '@salesforce/apex/SalesOrderController.getSalesOrders
 export default class CustomerProfile extends LightningElement {
 
     context = createMessageContext();
+    @track showPhoneData = true;
+    @track showEmailData = true;
+    @track showAddressData = true;
     @track subscription = null;
     @track receivedMessage = 'customer id';
     @api ParentMessage = '';
@@ -28,6 +31,19 @@ export default class CustomerProfile extends LightningElement {
     connectedCallback() {
         console.log('connected callback initiated ...', this.ParentMessage.Id);
         this.subscribeMC();
+        console.log('phone ...', this.ParentMessage.Phone);
+        console.log('email ...', this.ParentMessage.Email);
+        console.log('address ...', this.ParentMessage.Address1);        
+        // check for showing data on or off
+        if(!this.ParentMessage.Phone) {
+            this.showPhoneData = false;
+        }
+        if(!this.ParentMessage.Email) {
+            this.showEmailData = false;
+        }
+        if(!this.ParentMessage.Address1 && !this.ParentMessage.PostalCode) {
+            this.showAddressData = false;
+        }                
         getSalesOrders({searchParam : this.ParentMessage.Id})
         .then((data) => {
             console.log('sales data', data);

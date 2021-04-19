@@ -81,7 +81,6 @@ export default class RecentSalesOrder extends NavigationMixin(LightningElement) 
             .catch((error) => {
                     this.error = 'Data not available';
                     this.salesOrderList = undefined;
-                    this.refresh = true;
                     console.log('Sales Order Error ---> ', error)
             });            
     }    
