@@ -111,7 +111,8 @@ public class WebEngagementWrapper {
 		public String EngagementChannel {get;set;} 
 		public String EngagementEvent {get;set;} 
 		public String EngagementTime {get;set;} 
-		public String DomainName {get;set;} 		
+		public String DomainName {get;set;} 
+		public String DeviceOSName {get;set;} 
 
 		public Data(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
@@ -134,6 +135,8 @@ public class WebEngagementWrapper {
 							EngagementTime = parser.getText();
 						} else if (text == 'DomainName__c') {
 							DomainName = parser.getText();
+						} else if (text == 'DeviceOSName__c') {
+							DeviceOSName = parser.getText();
 						} else {
 							System.debug(LoggingLevel.WARN, 'Data consuming unrecognized property: '+text);
 							consumeObject(parser);

@@ -47,35 +47,46 @@
                                     <lightning-layout-item>
                                         <div class="header-column">
                                             <p class="field-title" title="Lifetime Spend">Lifetime Spend</p>
-                                            <p><lightning-formatted-number value={LifeTimeSpend} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
+                                            <div class="slds-p-top_medium">
+                                                <p><lightning-formatted-number class="field-ltv" value={LifeTimeSpend} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
+                                            </div>
+                                            
                                         </div>                            
                                     </lightning-layout-item>
             
                                     <lightning-layout-item>
                                         <div class="header-column">
                                             <p class="field-title" title="Lifetime Orders">Lifetime Orders</p>
-                                            <p>{LifeTimeOrders}</p>
+                                            <p class="field-ltv slds-p-top_medium">{LifeTimeOrders}</p>
                                         </div>                            
                                     </lightning-layout-item>
             
                                     <lightning-layout-item>
                                         <div class="header-column">
                                             <p class="field-title" title="Avg Order Amount">Avg Order Amount</p>
-                                            <p><lightning-formatted-number value={AvgOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
+                                            <div class="slds-p-top_medium">
+                                                <p><lightning-formatted-number class="field-ltv" value={AvgOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
+                                            </div>
+                                            
                                         </div>                            
                                     </lightning-layout-item>
                                     
                                     <lightning-layout-item>
                                         <div class="header-column">
                                             <p class="field-title" title="Lifetime Orders">Highest Order Amount</p>
-                                            <p><lightning-formatted-number value={HighestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
+                                            <div class="slds-p-top_medium">
+                                                <p><lightning-formatted-number class="field-ltv" value={HighestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
+                                            </div>
                                         </div>                            
                                     </lightning-layout-item>
             
                                     <lightning-layout-item>
                                         <div class="header-column">
                                             <p class="field-title" title="Lifetime Orders">Lowest Order Amount</p>
-                                            <p><lightning-formatted-number value={LowestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
+                                            <div class="slds-p-top_medium">
+                                                <p><lightning-formatted-number class="field-ltv" value={LowestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
+                                            </div>
+                                            
                                         </div>                            
                                     </lightning-layout-item>
         

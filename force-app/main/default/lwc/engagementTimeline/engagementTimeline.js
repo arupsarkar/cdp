@@ -13,12 +13,23 @@ export default class EngagementTimeline extends NavigationMixin(LightningElement
     @track appEngagementList ; 
     @track emailEngagementList ;        
 
-    @track columns = [
-        { label: 'Channel', fieldName: 'EngagementChannel__c', type: 'text', sortable: true},
+    @track webColumns = [
         { label: 'Date Time', fieldName: 'EngagementDateTime__c', type: 'date', sortable: true},
+        { label: 'Domain', fieldName: 'Domain__c', type: 'text', sortable: true},        
         { label: 'Device', fieldName: 'EngagementDevice__c', type: 'text'},
         { label: 'Event', fieldName: 'EngagementEvent__c', type: 'text'},
     ]; 
+    @track emailColumns = [
+        { label: 'Date Time', fieldName: 'EngagementDateTime__c', type: 'date', sortable: true},        
+        { label: 'Subject', fieldName: 'SubjectLine__c', type: 'date', sortable: true},
+        { label: 'Event', fieldName: 'EngagementEvent__c', type: 'text'},
+    ]; 
+    @track appColumns = [
+        { label: 'Date Time', fieldName: 'EngagementDateTime__c', type: 'date', sortable: true},
+        { label: 'Device OS', fieldName: 'Device_OS_Name__c', type: 'date', sortable: true},
+        { label: 'Device', fieldName: 'EngagementDevice__c', type: 'text'},
+        { label: 'Event', fieldName: 'EngagementEvent__c', type: 'text'},
+    ];         
     
 
     connectedCallback() {

@@ -17,6 +17,12 @@
   color: #54698d;
   margin-bottom: 0.25rem;
 }
+.field-ltv {
+  font-size: 1.25rem;
+  line-height: 1.25;
+  color: #38393a;
+  margin-bottom: 0.25rem;
+}
 .lgc-bg {
   background-color: rgb(242, 242, 242);
 }

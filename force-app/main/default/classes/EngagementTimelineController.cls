@@ -6,7 +6,7 @@ public with sharing class EngagementTimelineController {
     public static List<C360_Engagement_Timeline__c> getWebRecords() {
         return[ SELECT Id, Name, EngagementChannel__c, EngagementDateTime__c, 
                     EngagementDevice__c, EngagementEvent__c, 
-                    ProductSKU__c, UnifiedId__c
+                    ProductSKU__c, UnifiedId__c, Domain__c
                 FROM C360_Engagement_Timeline__c 
                 WHERE EngagementChannel__c = 'Web'
                 LIMIT 5
@@ -31,7 +31,7 @@ public with sharing class EngagementTimelineController {
         try {
             return[ SELECT Id, Name, EngagementChannel__c, EngagementDateTime__c, 
                         EngagementDevice__c, EngagementEvent__c, 
-                        ProductSKU__c, UnifiedId__c
+                        ProductSKU__c, UnifiedId__c, SubjectLine__c
                     FROM C360_Engagement_Timeline__c 
                     WHERE EngagementChannel__c = 'Email'
                     LIMIT 5];            

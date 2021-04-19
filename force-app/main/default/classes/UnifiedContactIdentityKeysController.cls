@@ -351,6 +351,7 @@ public with sharing class UnifiedContactIdentityKeysController {
             c360web.EngagementEvent__c = key.EngagementEvent;
             c360web.ProductSKU__c = key.ProductSKU;
             c360web.Domain__c = key.DomainName;
+            c360web.Device_OS_Name__c = key.DeviceOSName;
             // c360web.Referrer_Medium__c = key.Referrer_Medium;
             // c360web.Referrer_Campaign__c = key.Referrer_Campaign;
             // c360web.Referrer_Source__c = key.Referrer_Source;
@@ -452,6 +453,7 @@ public with sharing class UnifiedContactIdentityKeysController {
             c360email.EngagementChannel__c = key.EngagementChannel;
             c360email.EngagementDateTime__c = Datetime.valueOf(key.EngagementTime.replace('T',' '));
             c360email.EngagementEvent__c = key.EngagementEvent;
+            c360email.SubjectLine__c = key.EmailSubjectLine;
             engagementList.add(c360email);
         } 
         try{
