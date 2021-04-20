@@ -40,13 +40,16 @@
             <lightning-layout-item size="5" padding="around-small">                
                 <lightning-card variant="Narrow"  title="Lifetime Value" icon-name="custom:custom66">
                     <div class="slds-scrollable" style="height:10rem;width:rem">
-                        <div class="slds-text-longform" style="width:100%">
+                        <!-- <div class="slds-text-longform" style="width:100%"> -->
 
                             <!-- <div class="slds-text-heading_medium" style="height:20px;margin:10px;margin-bottom:150px;"> -->
+                                
+                            <!-- <div class="slds-p-around_medium">                                 -->
+                                <div class="slds-p-left_xxx-small slds-p-top_large">
                                 <lightning-layout>
                                     <lightning-layout-item>
                                         <div class="header-column">
-                                            <p class="field-title" title="Lifetime Spend">Lifetime Spend</p>
+                                            <p class="field-title-1" title="Lifetime Spend">Lifetime Spend</p>
                                             <div class="slds-p-top_medium">
                                                 <p><lightning-formatted-number class="field-ltv" value={LifeTimeSpend} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
                                             </div>
@@ -56,14 +59,14 @@
             
                                     <lightning-layout-item>
                                         <div class="header-column">
-                                            <p class="field-title" title="Lifetime Orders">Lifetime Orders</p>
+                                            <p class="field-title-1" title="Lifetime Orders">Lifetime Orders</p>
                                             <p class="field-ltv slds-p-top_medium">{LifeTimeOrders}</p>
                                         </div>                            
                                     </lightning-layout-item>
             
                                     <lightning-layout-item>
                                         <div class="header-column">
-                                            <p class="field-title" title="Avg Order Amount">Avg Order Amount</p>
+                                            <p class="field-title-1" title="Avg Order Amount">Avg Order Amount</p>
                                             <div class="slds-p-top_medium">
                                                 <p><lightning-formatted-number class="field-ltv" value={AvgOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
                                             </div>
@@ -73,7 +76,7 @@
                                     
                                     <lightning-layout-item>
                                         <div class="header-column">
-                                            <p class="field-title" title="Lifetime Orders">Highest Order Amount</p>
+                                            <p class="field-title-1" title="Lifetime Orders">Highest Order Amount</p>
                                             <div class="slds-p-top_medium">
                                                 <p><lightning-formatted-number class="field-ltv" value={HighestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
                                             </div>
@@ -82,7 +85,7 @@
             
                                     <lightning-layout-item>
                                         <div class="header-column">
-                                            <p class="field-title" title="Lifetime Orders">Lowest Order Amount</p>
+                                            <p class="field-title-1" title="Lifetime Orders">Lowest Order Amount</p>
                                             <div class="slds-p-top_medium">
                                                 <p><lightning-formatted-number class="field-ltv" value={LowestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
                                             </div>
@@ -91,49 +94,15 @@
                                     </lightning-layout-item>
         
                                 </lightning-layout>                    
+                            </div>
                             <!-- </div> -->
-                            
-                        </div>
-                    </div>
-                    <!-- <div class="slds-text-heading_medium" style="height:20px;margin:10px;margin-bottom:150px;">
-                        <lightning-layout>
-                            <lightning-layout-item>
-                                <div class="header-column">
-                                    <p class="field-title" title="Lifetime Spend">Lifetime Spend</p>
-                                    <p><lightning-formatted-number value={LifeTimeSpend} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
-                                </div>                            
-                            </lightning-layout-item>
-    
-                            <lightning-layout-item>
-                                <div class="header-column">
-                                    <p class="field-title" title="Lifetime Orders">Lifetime Orders</p>
-                                    <p>{LifeTimeOrders}</p>
-                                </div>                            
-                            </lightning-layout-item>
-    
-                            <lightning-layout-item>
-                                <div class="header-column">
-                                    <p class="field-title" title="Avg Order Amount">Avg Order Amount</p>
-                                    <p><lightning-formatted-number value={AvgOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
-                                </div>                            
-                            </lightning-layout-item>
-                            
-                            <lightning-layout-item>
-                                <div class="header-column">
-                                    <p class="field-title" title="Lifetime Orders">Highest Order Amount</p>
-                                    <p><lightning-formatted-number value={HighestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
-                                </div>                            
-                            </lightning-layout-item>
-    
-                            <lightning-layout-item>
-                                <div class="header-column">
-                                    <p class="field-title" title="Lifetime Orders">Lowest Order Amount</p>
-                                    <p><lightning-formatted-number value={LowestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
-                                </div>                            
-                            </lightning-layout-item>
 
-                        </lightning-layout>                    
-                    </div> -->
+                            
+                        <!-- </div> -->
+                    </div>
+
+
+
                 </lightning-card>
                 
             </lightning-layout-item>
@@ -181,9 +150,6 @@
                                             <template if:true={showPhoneData}>
                                                 <lightning-layout>
                                                     <lightning-layout-item padding="around small">
-                                                        <lightning-icon icon-name="custom:custom22"></lightning-icon>
-                                                    </lightning-layout-item>
-                                                    <lightning-layout-item padding="around small">
                                                         <lightning-formatted-phone value={ParentMessage.Phone}></lightning-formatted-phone>
                                                     </lightning-layout-item>                                                                                                
                                                 </lightning-layout>
@@ -195,9 +161,6 @@
                                     <template if:true={showEmailData}>
                                         <lightning-tile>
                                             <lightning-layout>
-                                                <lightning-layout-item padding="around small">
-                                                    <lightning-icon icon-name="custom:custom23"></lightning-icon>
-                                                </lightning-layout-item>
                                                 <lightning-layout-item padding="around small">
                                                     <lightning-formatted-email value={ParentMessage.Email} hide-icon></lightning-formatted-email>
                                                 </lightning-layout-item>                                                                                                
