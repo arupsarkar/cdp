@@ -37,6 +37,8 @@ export default class RecentSalesOrder extends NavigationMixin(LightningElement) 
     @track productName;
     @track productPrice;
     @track purchaseDate;
+    @track imageLink;
+    @track productURL;
     @track error;
     @track salesOrderList;
     @track refresh;
@@ -75,6 +77,8 @@ export default class RecentSalesOrder extends NavigationMixin(LightningElement) 
                     this.productName = data[0].Product_Name__c != undefined ? data[0].Product_Name__c : 'No Product';
                     this.productPrice = data[0].Sale_Price_Amount__c != undefined ? data[0].Sale_Price_Amount__c : '0.00';
                     this.purchaseDate = data[0].Purchase_Order_Date__c != undefined ? data[0].Purchase_Order_Date__c : 'No Date';
+                    this.imageLink = data[0].Image_Link__c;
+                    this.productURL = data[0].Product_URL__c;
                     this.salesOrderList = data;
                 }
             })

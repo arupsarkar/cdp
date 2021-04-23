@@ -6,6 +6,8 @@ public class RecentSalesOrders {
 		public String PurchaseOrderDate;
 		public String Product_Name;
 		public String Id;
+		public String Image_Link;
+		public String Product_URL;
 	}
 
 	public List<Data> data;

@@ -1,0 +1,76 @@
+<template>
+    <div class="c-container">
+        <!-- <lightning-layout>
+            <lightning-layout-item size="12" padding="around-small"> -->
+                <lightning-card variant="Narrow"  title="Lifetime Value" icon-name="custom:custom66">
+                    <div class="slds-scrollable" style="height:10rem;width:rem">
+                        <lightning-layout>
+                            <lightning-layout-item padding="around-small">
+                                <div class="slds-box custom-box-1">
+                                    <div class="slds-align_absolute-center slds-border_bottom slds-text-heading_small">Lifetime</div>
+                                    <lightning-layout>
+                                        <lightning-layout-item padding="around-small">
+                                            <p class="field-title">Spend:</p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item padding="around-small">
+                                            <lightning-formatted-number class="slds-text-heading_small" value={LifeTimeSpend} format-style="currency" currency-code="USD"></lightning-formatted-number>
+                                        </lightning-layout-item>                                    
+                                    </lightning-layout>
+                                    <lightning-layout>
+                                        <lightning-layout-item padding="around-small">
+                                            <p class="field-title">Orders:</p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item padding="around-small">
+                                            <p class="slds-text-heading_small">{LifeTimeOrders}</p>
+                                        </lightning-layout-item>                                    
+                                    </lightning-layout>                                                                        
+                                </div>
+                            </lightning-layout-item>
+
+                            <lightning-layout-item padding="around-small">
+                                <div class="slds-box custom-box-2">
+                                    <div class="slds-align_absolute-center slds-border_bottom slds-text-heading_small">Order Amount</div> 
+                                    <lightning-layout>
+                                        <lightning-layout-item padding="around-small">
+                                            <p class="field-title">Average:</p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item padding="around-small">
+                                            <lightning-formatted-number class="slds-text-heading_small" value={AvgOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number>
+                                        </lightning-layout-item>                                    
+                                    </lightning-layout>
+                                    <lightning-layout>
+                                        <lightning-layout-item padding="around-small">
+                                            <p class="field-title">Highest:</p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item padding="around-small"> 
+                                            <lightning-formatted-number class="slds-text-heading_small" value={HighestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number>
+                                        </lightning-layout-item>                                    
+                                    </lightning-layout>
+                                </div>
+                            </lightning-layout-item>
+
+                            <lightning-layout-item padding="around-small">
+                                <div class="slds-box custom-box-3">
+                                    <div class="slds-align_absolute-center slds-border_bottom slds-text-heading_small">Order Amount</div> 
+                                    <lightning-layout>
+                                        <lightning-layout-item padding="around-small">
+                                            <p class="field-title">Lowest:</p>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item padding="around-small">
+                                            <lightning-formatted-number class="slds-text-heading_small" value={LowestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number>
+                                        </lightning-layout-item>                                    
+                                    </lightning-layout>
+                                </div>
+                            </lightning-layout-item>
+                
+                        </lightning-layout>
+                    </div>
+            
+                </lightning-card>
+
+            <!-- </lightning-layout-item>
+        </lightning-layout> -->
+
+    </div>
+
+</template>

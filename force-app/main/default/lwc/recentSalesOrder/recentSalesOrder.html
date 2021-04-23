@@ -33,7 +33,7 @@
                         <lightning-layout>
                             <lightning-layout-item padding="around-small">
                                 <div>
-                                    <img src={productLogo} width="150px" height="150px">
+                                    <img src={imageLink} width="150px" height="150px">
                                 </div>                        
                             </lightning-layout-item>
                             <lightning-layout-item padding="around-small">
@@ -46,6 +46,11 @@
                                 <div class="header-column">
                                     <p>{purchaseDate}</p>
                                 </div>   
+                                <div class="header-column">
+                                    <p><lightning-formatted-url value={productURL} tooltip="Click here to get more product info." label="Product Information"></lightning-formatted-url></p>
+                                </div>                                   
+                                
+
                             </lightning-layout-item>
                         </lightning-layout>
                     </div>

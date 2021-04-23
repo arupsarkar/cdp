@@ -94,7 +94,7 @@ public with sharing class UnifiedContactIdentityKeysController {
         //LTV Insights -End
 
         //SalesOrder -Start
-        String query2 = '{' + '"sql"' + ':' + '"select UI.Id__c, GP.ProductSKU__c,GP.Product_Name__c, SOP.Sale_Price_Amount__c, SO.PurchaseOrderDate__c from ' + 
+        String query2 = '{' + '"sql"' + ':' + '"select UI.Id__c, GP.ProductSKU__c,GP.Product_Name__c, GP.Image_Link__c, GP.Product_URL__c, SOP.Sale_Price_Amount__c, SO.PurchaseOrderDate__c from ' + 
         'UnifiedIndividual__dlm UI INNER JOIN IndividualIdentityLink__dlm IIL on UI.Id__c=IIL.UnifiedRecordId__c INNER JOIN SalesOrder__dlm SO ' + 
         'on IIL.SourceRecordId__c=SO.SoldToCustomerId__c INNER JOIN SalesOrderProduct__dlm SOP on SO.OrderNumber__c=SOP.SalesOrderId__c ' + 
         'INNER JOIN GoodsProduct__dlm GP on SOP.ProductId__c=GP.ProductSKU__c where UI.Id__c= \'' + unifiedIndividualId + '\'' + 
@@ -292,6 +292,8 @@ public with sharing class UnifiedContactIdentityKeysController {
             c360SO.ProductSKU__c = key.ProductSKU;
             c360SO.Purchase_Order_Date__c = Date.valueOf(key.PurchaseOrderDate);
             c360SO.Sale_Price_Amount__c = Decimal.valueOf(key.Sale_Price_Amount);
+            c360SO.Image_Link__c = key.Image_Link;
+            c360SO.Product_URL__c = key.Product_URL;
             salesOrdersList.add(c360SO);
         } 
         try{

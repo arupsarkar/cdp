@@ -13,7 +13,7 @@
 }
 
 .field-title-1 {
-  font-size: 0.80rem;
+  font-size: 0.75rem;
   line-height: 1.25;
   color: #54698d;
   margin-bottom: 0.25rem;
@@ -41,4 +41,23 @@
 
 .custom-box {
   background-color: #f4f6f9;
+}
+
+.custom-box-1 {
+  background-color: #f2e7e7;
+}
+
+.custom-box-2 {
+  background-color: #e5eaf0;
+}
+
+.custom-box-3 {
+  background-color: #daf7d3;
+}  
+
+.field-title-3 {
+  font-size: 1.00rem;
+  line-height: 1.25;
+  color: #54698d;
+  margin-bottom: 0.25rem;
 }
