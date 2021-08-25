@@ -8,8 +8,8 @@ public with sharing class UnifiedContactPointPhoneController {
         // String urlCB = 'callout:UnifiedIndividual/services/data/v50.0/query/?q=' +
         //                 'SELECT+Id__c+,+PartyId__c+,+TelephoneNumber__c' +
         //                 '+FROM+UnifiedContactPointPhone__dlm+WHERE+PartyId__c+IN+(' + queryCriteria + ')';  
-        String urlCB = '{' + '"sql"' + ':' + '"SELECT Id__c, PartyId__c, TelephoneNumber__c ' + 
-        'FROM UnifiedContactPointPhone__dlm WHERE PartyId__c IN (' + queryCriteria + ')"' + 
+        String urlCB = '{' + '"sql"' + ':' + '"SELECT ssot__Id__c, ssot__PartyId__c, ssot__TelephoneNumber__c ' + 
+        'FROM UnifiedContactPointPhone__dlm WHERE ssot__PartyId__c IN (' + queryCriteria + ')"' + 
         '}';
         System.debug(LoggingLevel.DEBUG, '---> phone query ' + urlCB) ;       
         Map<String, UnifiedIndividualPhone> phoneMap = getResults(urlCB, cdp_token);
@@ -52,7 +52,9 @@ public with sharing class UnifiedContactPointPhoneController {
         req.setEndpoint('https://g4zt8nl0gfst8mjtgrst8yjzmm.c360a.salesforce.com/api/v1/query');
         HttpResponse res = h.send(req);
         System.debug(LoggingLevel.DEBUG, '>>> raw output ' + res.getBody()); 
-        UnifiedIndividualPhoneParser unifiedIndPhone = (UnifiedIndividualPhoneParser) JSON.deserialize(res.getBody().replaceAll('__c',''),UnifiedIndividualPhoneParser.class); 
+        String tempData1 = res.getBody().replaceAll('__c','');
+        String tempData2 = tempData1.replaceAll('ssot__','');
+        UnifiedIndividualPhoneParser unifiedIndPhone = (UnifiedIndividualPhoneParser) JSON.deserialize(tempData2,UnifiedIndividualPhoneParser.class); 
         List<UnifiedIndividualPhoneParser.Data> phones = unifiedIndPhone.Data;
         if(phones != null && !phones.isEmpty()) {
             

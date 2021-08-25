@@ -113,6 +113,13 @@ public class WebEngagementWrapper {
 		public String EngagementTime {get;set;} 
 		public String DomainName {get;set;} 
 		public String DeviceOSName {get;set;} 
+		public String Referrer_Medium {get;set;}  
+		public String Referrer_Campaign {get;set;}  
+		public String Referrer_Source {get;set;}  
+		public String Product_Name {get;set;}  
+		
+		
+				
 
 		public Data(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
@@ -137,7 +144,15 @@ public class WebEngagementWrapper {
 							DomainName = parser.getText();
 						} else if (text == 'DeviceOSName__c') {
 							DeviceOSName = parser.getText();
-						} else {
+						} else if (text == 'Referrer_Medium__c') {
+							Referrer_Medium = parser.getText();
+						} else if (text == 'Referrer_Campaign__c') {
+							Referrer_Campaign = parser.getText();
+						}else if (text == 'Referrer_Source__c') {
+							Referrer_Source = parser.getText();
+						}else if (text == 'Product_Name__c') {
+							Product_Name = parser.getText();
+						}else {
 							System.debug(LoggingLevel.WARN, 'Data consuming unrecognized property: '+text);
 							consumeObject(parser);
 						}

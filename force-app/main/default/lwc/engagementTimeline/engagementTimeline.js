@@ -22,6 +22,11 @@ export default class EngagementTimeline extends NavigationMixin(LightningElement
         { label: 'Domain', fieldName: 'Domain__c', type: 'text', sortable: true},        
         { label: 'Device', fieldName: 'EngagementDevice__c', type: 'text'},
         { label: 'Event', fieldName: 'EngagementEvent__c', type: 'text'},
+        { label: 'Referred Medium', fieldName: 'Referrer_Medium__c', type: 'text'},
+        { label: 'Referrer Campaign', fieldName: 'Referrer_Campaign__c', type: 'text'},        
+        { label: 'Referrer Source', fieldName: 'Referrer_Source__c', type: 'text'},
+        { label: 'Product Name', fieldName: 'Product_Name__c', type: 'text'},        
+        { label: 'Content Name', fieldName: 'Content__c', type: 'text'},        
     ]; 
     @track emailColumns = [
         { label: 'Date Time', fieldName: 'EngagementDateTime__c', type: 'date', sortable: true},        
@@ -33,6 +38,11 @@ export default class EngagementTimeline extends NavigationMixin(LightningElement
         { label: 'Device OS', fieldName: 'Device_OS_Name__c', type: 'date', sortable: true},
         { label: 'Device', fieldName: 'EngagementDevice__c', type: 'text'},
         { label: 'Event', fieldName: 'EngagementEvent__c', type: 'text'},
+        { label: 'Referred Medium', fieldName: 'Referrer_Medium__c', type: 'text'},
+        { label: 'Referrer Campaign', fieldName: 'Referrer_Campaign__c', type: 'text'},        
+        { label: 'Referrer Source', fieldName: 'Referrer_Source__c', type: 'text'},
+        { label: 'Product Name', fieldName: 'Product_Name__c', type: 'text'},        
+        { label: 'Content Name', fieldName: 'Content__c', type: 'text'},         
     ];         
     
 

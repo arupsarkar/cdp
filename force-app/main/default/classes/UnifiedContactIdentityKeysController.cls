@@ -354,11 +354,11 @@ public with sharing class UnifiedContactIdentityKeysController {
             c360web.ProductSKU__c = key.ProductSKU;
             c360web.Domain__c = key.DomainName;
             c360web.Device_OS_Name__c = key.DeviceOSName;
-            // c360web.Referrer_Medium__c = key.Referrer_Medium;
-            // c360web.Referrer_Campaign__c = key.Referrer_Campaign;
-            // c360web.Referrer_Source__c = key.Referrer_Source;
-            // c360web.Device_OS_Name__c = key.DeviceOSName;
-            // c360web.Product_Name__c = key.Product_Name;
+            c360web.Referrer_Medium__c = key.Referrer_Medium;
+            c360web.Content__c = key.Content;
+            c360web.Referrer_Campaign__c = key.Referrer_Campaign;
+            c360web.Referrer_Source__c = key.Referrer_Source;
+            c360web.Product_Name__c = key.Product_Name;
 
             engagementList.add(c360web);
         } 

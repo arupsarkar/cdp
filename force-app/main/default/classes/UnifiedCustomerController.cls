@@ -18,21 +18,21 @@ public with sharing class UnifiedCustomerController {
             // urlCB = 'callout:UnifiedIndividual/services/data/v50.0/query/?q=' +
             // 'SELECT+Id__c+,+FirstName__c+,+LastName__c+,+LoyaltyPoints__c+,+LoyaltyStatus__c+FROM+UnifiedIndividual__dlm+WHERE+LastName__c+LIKE+\'' +searchParam+ '\'' +
             // '+LIMIT+100';
-            urlCB = '{' + '"sql"' + ':' + '"select Id__c, FirstName__c, LastName__c, Interest__c, Channel_Preference__c, ' + 
-            'GenderId__c, Category_Preference__c,BirthDate__c, InternalOrganizationId__c, ' + 
+            urlCB = '{' + '"sql"' + ':' + '"select ssot__Id__c, ssot__FirstName__c, ssot__LastName__c, Interest__c, Channel_Preference__c, ' + 
+            'ssot__GenderId__c, Category_Preference__c,ssot__BirthDate__c, ssot__InternalOrganizationId__c, ' + 
             'LoyaltyPoints__c, LoyaltyStatus__c ' + 
-            'from UnifiedIndividual__dlm WHERE LastName__c = \'' + searchParam + '\' ' + 
+            'from UnifiedIndividual__dlm WHERE ssot__LastName__c = \'' + searchParam + '\' ' + 
             'LIMIT 10' + '"}';            
         }else {
             // urlCB = 'callout:UnifiedIndividual/services/data/v50.0/query/?q=' +
             // 'SELECT+Id__c+,+FirstName__c+,+LastName__c+,+LoyaltyPoints__c+,+LoyaltyStatus__c+FROM+UnifiedIndividual__dlm+WHERE+LastName__c+LIKE+\'' +searchParam+ '\'' +
             // '+AND+FirstName__c+LIKE+\'' + searchParam2 + '\'' +
             // '+LIMIT+100';
-            urlCB = '{' + '"sql"' + ':' + '"select Id__c, FirstName__c, LastName__c, Interest__c, Channel_Preference__c, ' + 
-            'GenderId__c, Category_Preference__c,BirthDate__c, InternalOrganizationId__c, ' + 
+            urlCB = '{' + '"sql"' + ':' + '"select ssot__Id__c, ssot__FirstName__c, ssot__LastName__c, Interest__c, Channel_Preference__c, ' + 
+            'ssot__GenderId__c, Category_Preference__c,ssot__BirthDate__c, ssot__InternalOrganizationId__c, ' + 
             'LoyaltyPoints__c, LoyaltyStatus__c ' + 
-            'from UnifiedIndividual__dlm WHERE LastName__c = \'' + searchParam + '\' ' + 
-            'AND FirstName__c = \'' + searchParam2 + '\' ' +
+            'from UnifiedIndividual__dlm WHERE ssot__LastName__c = \'' + searchParam + '\' ' + 
+            'AND ssot__FirstName__c = \'' + searchParam2 + '\' ' +
             'LIMIT 10' + '"}';            
         }
         List<UnifiedIndividual> records = new List<UnifiedIndividual>();
@@ -58,10 +58,10 @@ public with sharing class UnifiedCustomerController {
         // String urlCB = 'callout:UnifiedIndividual/services/data/v50.0/query/?q=' +
         //                 'SELECT+Id__c+,+FirstName__c+,+LastName__c+,+LoyaltyPoints__c+,+LoyaltyStatus__c+FROM+UnifiedIndividual__dlm+WHERE+LastName__c+!=+null' +
         //                 '+LIMIT+5';
-        String urlCB = '{' + '"sql"' + ':' + '"select Id__c, FirstName__c, LastName__c, Interest__c, Channel_Preference__c, ' + 
-                        'GenderId__c, Category_Preference__c,BirthDate__c, InternalOrganizationId__c, ' + 
+        String urlCB = '{' + '"sql"' + ':' + '"select ssot__Id__c, ssot__FirstName__c, ssot__LastName__c, Interest__c, Channel_Preference__c, ' + 
+                        'ssot__GenderId__c, Category_Preference__c,ssot__BirthDate__c, ssot__InternalOrganizationId__c, ' + 
                         'LoyaltyPoints__c, LoyaltyStatus__c ' + 
-                        'from UnifiedIndividual__dlm WHERE FirstName__c != \'' + '\'' + 
+                        'from UnifiedIndividual__dlm WHERE ssot__FirstName__c != \'' + '\'' + 
                         ' AND LoyaltyStatus__c != \'' + '\'' + ' LIMIT 10' + '"}';
         System.debug(LoggingLevel.DEBUG, urlCB);
         records = getResults(urlCB);
@@ -105,7 +105,9 @@ public with sharing class UnifiedCustomerController {
         }
         Boolean errorFlag = false;
         try{
-            unifiedInd = (UnifiedIndividualParser) JSON.deserialize(res.getBody().replaceAll('__c',''),UnifiedIndividualParser.class);
+            String tempData1 = res.getBody().replaceAll('__c','');
+            String tempData2 = tempData1.replaceAll('ssot__', '');
+            unifiedInd = (UnifiedIndividualParser) JSON.deserialize(tempData2,UnifiedIndividualParser.class);
         }catch(exception ex) {
             errorFlag = true;
             System.debug(LoggingLevel.ERROR, '---> Error ' + ex.getMessage());
@@ -214,7 +216,7 @@ public with sharing class UnifiedCustomerController {
 
     private static String getResult(String data) {
         String result = '';
-        if(data.length() < 1 && data == null) {
+        if(String.isEmpty(data)) {
             return result;
         }else {
             result = data;

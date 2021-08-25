@@ -26,10 +26,13 @@ export default class CustomerProfile extends LightningElement {
     @track AvgOrderAmount = '';
     @track HighestOrderAmount = '';
     @track LowestOrderAmount = '';
+    @track createdDate = new Date();
+    @track updatedDate = new Date();
 
 
     connectedCallback() {
         console.log('connected callback initiated ...', this.ParentMessage.Id);
+        this.createdDate = ((this.createdDate.getMonth() > 8) ? (this.createdDate.getMonth() + 1) : ('0' + (this.createdDate.getMonth() + 1))) + '/' + ((this.createdDate.getDate() > 9) ? this.createdDate.getDate() : ('0' + this.createdDate.getDate())) + '/' + this.createdDate.getFullYear();
         this.subscribeMC();
         console.log('phone ...', this.ParentMessage.Phone);
         console.log('email ...', this.ParentMessage.Email);

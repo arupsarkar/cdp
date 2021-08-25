@@ -8,8 +8,8 @@ public with sharing class UnifiedContactPointEmailController {
         // String urlCB = 'callout:UnifiedIndividual/services/data/v50.0/query/?q=' +
         //                 'SELECT+Id__c+,+PartyId__c+,+EmailAddress__c' +
         //                 '+FROM+UnifiedContactPointEmail__dlm+WHERE+PartyId__c+IN+(' + queryCriteria + ')';  
-        String urlCB = '{' + '"sql"' + ':' + '"SELECT Id__c, PartyId__c, EmailAddress__c ' + 
-                'FROM UnifiedContactPointEmail__dlm WHERE PartyId__c IN (' + queryCriteria + ')"' + 
+        String urlCB = '{' + '"sql"' + ':' + '"SELECT ssot__Id__c, ssot__PartyId__c, ssot__EmailAddress__c ' + 
+                'FROM UnifiedContactPointEmail__dlm WHERE ssot__PartyId__c IN (' + queryCriteria + ')"' + 
             '}';
         System.debug(LoggingLevel.DEBUG, '---> email query ' + urlCB) ;               
         Map<String, UnifiedIndividualEmail> emailMap = getResults(urlCB, cdp_token);
@@ -51,7 +51,9 @@ public with sharing class UnifiedContactPointEmailController {
         req.setEndpoint('https://g4zt8nl0gfst8mjtgrst8yjzmm.c360a.salesforce.com/api/v1/query');        
         HttpResponse res = h.send(req);
         System.debug(LoggingLevel.DEBUG, '>>> email output ' + res.getBody()); 
-        UnifiedIndividualEmailParser unifiedIndEmail = (UnifiedIndividualEmailParser) JSON.deserialize(res.getBody().replaceAll('__c',''),UnifiedIndividualEmailParser.class); 
+        String tempData1 = res.getBody().replaceAll('__c','');
+        String tempData2 = tempData1.replaceAll('ssot__','');
+        UnifiedIndividualEmailParser unifiedIndEmail = (UnifiedIndividualEmailParser) JSON.deserialize(tempData2,UnifiedIndividualEmailParser.class); 
         List<UnifiedIndividualEmailParser.Data> emails = unifiedIndEmail.Data;  
         if(emails != null && !emails.isEmpty()) {
             System.debug(LoggingLevel.DEBUG, '---> emails size() ' + emails.size());
