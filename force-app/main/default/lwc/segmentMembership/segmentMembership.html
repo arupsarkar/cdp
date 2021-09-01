@@ -3,7 +3,7 @@
         <lightning-card icon-name="standard:contact" title="Segment Membership">
             <div class="slds-scrollable" style="height:10rem;width:rem">
                 <div class="slds-text-longform" style="width:95%">
-                    <div class="slds-p-left_large">
+                    <div class="slds-var-p-left_large">
                         <template if:true={refresh}>
                             <lightning-layout-item padding="around-small">
                                 <lightning-dynamic-icon 
@@ -22,7 +22,7 @@
                         </template>
                     </div>
                     
-                    <div class="slds-p-left_large">
+                    <div class="slds-var-p-left_large">
                         <lightning-datatable
                             key-field="Id"
                             data={segmentMembershipList}
@@ -31,19 +31,7 @@
                             >
                         </lightning-datatable>
                     </div>
-                    
-                    <!-- <lightning-layout>
-                        <lightning-layout-item padding="around-small">
-                            <div class="header-column">
-                                <p>{segmentName}</p>
-                            </div>
-                        </lightning-layout-item>
-                    </lightning-layout>
-                    <lightning-layout>
-                        <lightning-layout-item padding="around-small">
-                            {notifier}
-                        </lightning-layout-item>
-                    </lightning-layout>                     -->
+
                     <template if:true={error}>
                         {error}
                     </template>                    

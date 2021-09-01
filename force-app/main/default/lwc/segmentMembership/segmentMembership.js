@@ -91,7 +91,7 @@ export default class SegmentMembership extends NavigationMixin(LightningElement)
             .then((data) => {
                 if (data) {
                     console.log('segment data : ' + new Date(), JSON.stringify(data));
-                    this.segmentName = data[0].Segment_Name__c;
+                    //this.segmentName = data[0].Segment_Name__c;
                     this.segmentMembershipList = data;
                 }
             })

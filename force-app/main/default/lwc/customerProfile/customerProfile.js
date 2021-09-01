@@ -1,17 +1,10 @@
 import { LightningElement, track, api, wire } from 'lwc';
-import { MessageContext, 
-    APPLICATION_SCOPE,
-    createMessageContext, 
-    releaseMessageContext, 
-    publish, 
-    subscribe, 
-    unsubscribe } from 'lightning/messageService';
-import SAMPLEMC from "@salesforce/messageChannel/CustomerMessagingChannel__c";
 import getSalesOrders from '@salesforce/apex/SalesOrderController.getSalesOrders';
+import { subscribe, unsubscribe, onError, setDebugFlag, isEmpEnabled } from 'lightning/empApi';
 
 export default class CustomerProfile extends LightningElement {
 
-    context = createMessageContext();
+    // context = createMessageContext();
     @track showPhoneData = true;
     @track showEmailData = true;
     @track showAddressData = true;
@@ -28,12 +21,24 @@ export default class CustomerProfile extends LightningElement {
     @track LowestOrderAmount = '';
     @track createdDate = new Date();
     @track updatedDate = new Date();
-
+    @track refresh;
+    unifiedId = '';
+    channelName = '/event/C360_Event__e';
 
     connectedCallback() {
-        console.log('connected callback initiated ...', this.ParentMessage.Id);
+        console.log('LTV connected callback initiated ...', this.ParentMessage.Id);
+        this.unifiedId = this.ParentMessage.Id;
+        this.refresh = false;
+        console.log('Starting to subscribe to platform event in customer profile LTV - Start');
+        //subscribe to events
+        this.subscribeToPlatformEvent();            
+        console.log('Starting to subscribe to platform event in customer profile LTV - End');
+        console.log('Starting to error listener in customer profile LTV - Start');
+        // Register error listener       
+        this.registerPlatformEventErrorListener();              
+        console.log('Starting to error listener in customer profile LTV - End');        
         this.createdDate = ((this.createdDate.getMonth() > 8) ? (this.createdDate.getMonth() + 1) : ('0' + (this.createdDate.getMonth() + 1))) + '/' + ((this.createdDate.getDate() > 9) ? this.createdDate.getDate() : ('0' + this.createdDate.getDate())) + '/' + this.createdDate.getFullYear();
-        this.subscribeMC();
+        // this.subscribeMC();
         console.log('phone ...', this.ParentMessage.Phone);
         console.log('email ...', this.ParentMessage.Email);
         console.log('address ...', this.ParentMessage.Address1);        
@@ -46,10 +51,14 @@ export default class CustomerProfile extends LightningElement {
         }
         if(!this.ParentMessage.Address1 && !this.ParentMessage.PostalCode) {
             this.showAddressData = false;
-        }                
-        getSalesOrders({searchParam : this.ParentMessage.Id})
+        }
+
+    }    
+    
+    getLTVData(searchData) {
+        getSalesOrders({searchParam : searchData})
         .then((data) => {
-            console.log('sales data', data);
+            console.log('LTV data', data);
             this.LifeTimeSpend = data[0].ltvSpend;
             this.LifeTimeOrders = data[0].ltvOrders;
             this.AvgOrderAmount = data[0].avgOrderAmount;
@@ -58,46 +67,42 @@ export default class CustomerProfile extends LightningElement {
         })
         .catch((error) => {
             this.errorMsg = error;
-        });        
-    }    
-    
-
-    
-
-    subscribeMC() {
-        console.log('C360 this.subscription...before', this.subscription);
-        if (this.subscription) {
-            console.log('C360  this.subscription is not null', 'returning');
-            return;
-        }
-        this.context = createMessageContext();
-        console.log('C360  this.subscription...1', this.subscription);
-        this.subscription = subscribe(this.context, SAMPLEMC, (message) => {
-            console.log('C360  this.subscription....after', this.subscription);
-            this.handleMessage(message);
-        },{
-            scope: APPLICATION_SCOPE
-        });
-     }
-    
-     unsubscribeMC() {
-         unsubscribe(this.subscription);
-         this.subscription = null;
-     }
-  
-     handleMessage(message) {
-         console.log('C360  payload...', JSON.stringify(message, null, '\t'));
-         //this.receivedMessage = message ? JSON.stringify(message, null, '\t') : 'no message payload';
-         this.receivedMessage = message.recordId;
-         console.log('C360 received payload 1...', this.receivedMessage); 
-         console.log('C360 received payload 2...', message.recordData.value);                  
-     }
-  
-     get subscribeStatus() {
-        return this.subscription ? 'TRUE' : 'FALSE';
+        });  
     }
+    
+    // Handles subscribe button click
+    subscribeToPlatformEvent() {
+        // Callback invoked whenever a new event message is received
+        const messageCallback = (response) => {
+            console.log('LTV message callback ', JSON.stringify(response));
+            console.log(new Date(), '------- LTV payload start------');
+            console.log(response.data.payload.Category__c);
+            this.refresh = true;
+            if(response.data.payload.Category__c == 'LTV') {
+                console.log(new Date(), '------- before LTV refresh start------' + this.refresh);
+                this.getLTVData(this.unifiedId);
+                console.log(new Date(), '------- after LTV refresh start------' + this.refresh);
+            }
+            
+            
+            console.log(new Date(), '------- LTV payload end ------');
+            // Response contains the payload of the new message received
 
-     disconnectedCallback() {
-         releaseMessageContext(this.context);
-     }    
+        };
+
+        // Invoke subscribe method of empApi. Pass reference to messageCallback
+        subscribe(this.channelName, -1, messageCallback).then(response => {
+            // Response contains the subscription information on subscribe call
+            console.log('LTV Subscription request sent to: ', JSON.stringify(response.channel));
+            this.subscription = response;
+        });
+    }
+    
+    registerPlatformEventErrorListener() {
+        // Invoke onError empApi method
+        onError(error => {
+            console.log('LTV Received error from server: ', JSON.stringify(error));
+            // Error contains the server-side error
+        });
+    }      
 }

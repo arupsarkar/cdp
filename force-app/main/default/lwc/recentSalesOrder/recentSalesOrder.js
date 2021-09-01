@@ -106,13 +106,13 @@ export default class RecentSalesOrder extends NavigationMixin(LightningElement) 
             console.log('sales order: ', JSON.stringify(response));
             console.log(new Date(), '------- sales order payload start------');
             console.log(response.data.payload.Category__c);
+            this.refresh = true;
             if(response.data.payload.Category__c == 'Sales Order') {
                 console.log(new Date(), '------- before sales order refresh start------' + this.refresh);
-                this.refresh = true;
                 this.getData();
                 console.log(new Date(), '------- after sales order refresh start------' + this.refresh);
             }
-            this.getData();
+            //this.getData();
             console.log(new Date(), '------- sales order payload end ------');
             // Response contains the payload of the new message received
             this.notifier = JSON.stringify(response);

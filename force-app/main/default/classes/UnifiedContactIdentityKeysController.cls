@@ -13,9 +13,9 @@ public with sharing class UnifiedContactIdentityKeysController {
         searchParams.add(unifiedIndividualId);
 
         queryCriteria = getQueryCriteria(searchParams);
-        String urlCB = '{' + '"sql"' + ':' + '"SELECT Id__c, PartyId__c, AddressLine1__c, AddressLine2__c, ' + 
-            'CityName__c, StateProvinceName__c, CountryName__c, PostalCodeText__c ' +
-        'FROM UnifiedContactPointAddress__dlm WHERE PartyId__c IN (' + queryCriteria + ') LIMIT 1"' + 
+        String urlCB = '{' + '"sql"' + ':' + '"SELECT ssot__Id__c, ssot__PartyId__c, ssot__AddressLine1__c, ssot__AddressLine2__c, ' + 
+            'ssot__CityName__c, ssot__StateProvinceName__c, ssot__CountryName__c, ssot__PostalCodeText__c ' +
+        'FROM UnifiedContactPointAddress__dlm WHERE ssot__PartyId__c IN (' + queryCriteria + ') LIMIT 1"' + 
         '}';
         
         System.debug(LoggingLevel.DEBUG, '>>> final query ' + urlCB);
@@ -60,9 +60,9 @@ public with sharing class UnifiedContactIdentityKeysController {
         queryCriteria = getQueryCriteria(searchParams); 
         System.debug(LoggingLevel.DEBUG, '---> queryCriteria : ' + queryCriteria);
         System.debug(LoggingLevel.DEBUG, '---> unifiedIndividualId : ' + unifiedIndividualId);
-        String urlCB = '{' + '"sql"' + ':' + '"SELECT Id__c, PartyId__c, AddressLine1__c, AddressLine2__c, ' + 
-            'CityName__c, StateProvinceName__c, CountryName__c, PostalCodeText__c ' +
-        'FROM UnifiedContactPointAddress__dlm WHERE PartyId__c IN (' + queryCriteria + ') LIMIT 1"' + 
+        String urlCB = '{' + '"sql"' + ':' + '"SELECT ssot__Id__c, ssot__PartyId__c, ssot__AddressLine1__c, ssot__AddressLine2__c, ' + 
+            'ssot__CityName__c, ssot__StateProvinceName__c, ssot__CountryName__c, ssot__PostalCodeText__c ' +
+        'FROM UnifiedContactPointAddress__dlm WHERE ssot__PartyId__c IN (' + queryCriteria + ') LIMIT 1"' + 
         '}';
 
         Http h = new Http();
@@ -94,11 +94,11 @@ public with sharing class UnifiedContactIdentityKeysController {
         //LTV Insights -End
 
         //SalesOrder -Start
-        String query2 = '{' + '"sql"' + ':' + '"select UI.Id__c, GP.ProductSKU__c,GP.Product_Name__c, GP.Image_Link__c, GP.Product_URL__c, SOP.Sale_Price_Amount__c, SO.PurchaseOrderDate__c from ' + 
-        'UnifiedIndividual__dlm UI INNER JOIN IndividualIdentityLink__dlm IIL on UI.Id__c=IIL.UnifiedRecordId__c INNER JOIN SalesOrder__dlm SO ' + 
-        'on IIL.SourceRecordId__c=SO.SoldToCustomerId__c INNER JOIN SalesOrderProduct__dlm SOP on SO.OrderNumber__c=SOP.SalesOrderId__c ' + 
-        'INNER JOIN GoodsProduct__dlm GP on SOP.ProductId__c=GP.ProductSKU__c where UI.Id__c= \'' + unifiedIndividualId + '\'' + 
-        ' Order By SO.PurchaseOrderDate__c DESC' + '"}';
+        String query2 = '{' + '"sql"' + ':' + '"select UI.ssot__Id__c, GP.ssot__ProductSKU__c,GP.Product_Name__c, GP.Image_Link__c, GP.Product_URL__c, SOP.Sale_Price_Amount__c, SO.ssot__PurchaseOrderDate__c from ' + 
+        'UnifiedIndividual__dlm UI INNER JOIN IndividualIdentityLink__dlm IIL on UI.ssot__Id__c=IIL.UnifiedRecordId__c INNER JOIN ssot__SalesOrder__dlm SO ' + 
+        'on IIL.SourceRecordId__c=SO.ssot__SoldToCustomerId__c INNER JOIN ssot__SalesOrderProduct__dlm SOP on SO.ssot__OrderNumber__c=SOP.ssot__SalesOrderId__c ' + 
+        'INNER JOIN ssot__GoodsProduct__dlm GP on SOP.ssot__ProductId__c=GP.ssot__ProductSKU__c where UI.ssot__Id__c= \'' + unifiedIndividualId + '\'' + 
+        ' Order By SO.ssot__PurchaseOrderDate__c DESC' + '"}';
         Http h2 = new Http();
         HttpRequest req2 = new HttpRequest();                 
         req2.setMethod('POST');
@@ -116,10 +116,10 @@ public with sharing class UnifiedContactIdentityKeysController {
         //Engagement Model -Start
         //1. WebEngagement -Start
 
-        String query3 = '{' + '"sql"' + ':' + '"select UI.Id__c as UnifiedId, WE.EngagementChannelId__c as EngagementChannel,WE.DeviceTypeTxt__c as EngagementDevice,WE.EngagementChannelActionId__c as ' + 
-                        'EngagementEvent,WE.EngagementDateTm__c as EngagementTime,GP.ProductSKU__c,CC.contentname__c as Content, WE.DomainName__c, WE.Referrer_Medium__c, WE.Referrer_Campaign__c,WE.Referrer_Source__c,WE.DeviceOSName__c, GP.Product_Name__c from UnifiedIndividual__dlm UI INNER JOIN IndividualIdentityLink__dlm IIL on UI.Id__c =  ' +
-                        'IIL.UnifiedRecordId__c INNER JOIN WebsiteEngagement__dlm WE on IIL.SourceRecordId__c = WE.IndividualId__c INNER JOIN GoodsProduct__dlm GP on WE.SKU__c = GP.ProductSKU__c INNER JOIN ' + 
-                        'Content_Catalog__dlm CC on CC.contentid__c = WE.Content_ID__c where UI.Id__c = \'' + unifiedIndividualId + '\'' + 
+        String query3 = '{' + '"sql"' + ':' + '"select UI.ssot__Id__c as UnifiedId, WE.ssot__EngagementChannelId__c as EngagementChannel,WE.ssot__DeviceTypeTxt__c as EngagementDevice,WE.ssot__EngagementChannelActionId__c as ' + 
+                        'EngagementEvent,WE.ssot__EngagementDateTm__c as EngagementTime,GP.ssot__ProductSKU__c,CC.contentname__c as Content, WE.ssot__DomainName__c, WE.Referrer_Medium__c, WE.Referrer_Campaign__c,WE.Referrer_Source__c,WE.ssot__DeviceOSName__c, GP.ssot__Name__c from UnifiedIndividual__dlm UI INNER JOIN IndividualIdentityLink__dlm IIL on UI.ssot__Id__c =  ' +
+                        'IIL.UnifiedRecordId__c INNER JOIN ssot__WebsiteEngagement__dlm WE on IIL.SourceRecordId__c = WE.ssot__IndividualId__c INNER JOIN ssot__GoodsProduct__dlm GP on WE.SKU__c = GP.ssot__ProductSKU__c INNER JOIN ' + 
+                        'Content_Catalog__dlm CC on CC.contentid__c = WE.Content_ID__c where UI.ssot__Id__c = \'' + unifiedIndividualId + '\'' + 
                         ' Order by 5 DESC' +
                         '"}';  
         Http h3 = new Http();
@@ -136,10 +136,10 @@ public with sharing class UnifiedContactIdentityKeysController {
         //EngagementController(res3.getBody(), 'Web');
         //1. WebEngagement -End
         //2. MobileEngagement -Start
-        String query4 = '{' + '"sql"' + ':' + '"select UI.Id__c as UnifiedId,DE.EngagementChannelId__c as EngagementChannel,DE.Device_Type__c as EngagementDevice,DE.EngagementChannelActionId__c as EngagementEvent,DE.EngagementDateTm__c as ' + 
-                        'EngagementTime,GP.ProductSKU__c,CC.contentname__c as Content from UnifiedIndividual__dlm UI INNER JOIN IndividualIdentityLink__dlm IIL on UI.Id__c = IIL.UnifiedRecordId__c INNER JOIN ' +
-                        'DeviceApplicationEngagement__dlm DE on IIL.SourceRecordId__c = DE.IndividualId__c INNER JOIN GoodsProduct__dlm GP on DE.sku__c = GP.ProductSKU__c INNER JOIN Content_Catalog__dlm CC on ' + 
-                        'CC.ContentID__c = DE.ContentID__c where UI.Id__c = \'' + unifiedIndividualId + '\'' + 
+        String query4 = '{' + '"sql"' + ':' + '"select UI.ssot__Id__c as UnifiedId,DE.ssot__EngagementChannelId__c as EngagementChannel,DE.Device_Type__c as EngagementDevice,DE.ssot__EngagementChannelActionId__c as EngagementEvent,DE.ssot__EngagementDateTm__c as ' + 
+                        'EngagementTime,GP.ssot__ProductSKU__c,CC.contentname__c as Content from UnifiedIndividual__dlm UI INNER JOIN IndividualIdentityLink__dlm IIL on UI.ssot__Id__c = IIL.UnifiedRecordId__c INNER JOIN ' +
+                        'ssot__DeviceApplicationEngagement__dlm DE on IIL.SourceRecordId__c = DE.ssot__IndividualId__c INNER JOIN ssot__GoodsProduct__dlm GP on DE.sku__c = GP.ssot__ProductSKU__c INNER JOIN Content_Catalog__dlm CC on ' + 
+                        'CC.ContentID__c = DE.ContentID__c where UI.ssot__Id__c = \'' + unifiedIndividualId + '\'' + 
                         ' Order by 5 DESC' +
                         '"}';  
         System.debug(LoggingLevel.DEBUG, urlCB);
@@ -158,9 +158,9 @@ public with sharing class UnifiedContactIdentityKeysController {
         //2. MobileEngagement -End  
 
         //3. EmailEngagement -Start
-        String query5 = '{' + '"sql"' + ':' + '"select UI.Id__c as UnifiedId,EE.EngagementChannelId__c as EngagementChannel,EE.EngagementChannelActionId__c as EngagementEvent,EE.EngagementDateTm__c as EngagementTime, SubjectLineTxt__c as ' + 
-                        'EmailSubjectLine from UnifiedIndividual__dlm UI INNER JOIN IndividualIdentityLink__dlm IIL on UI.Id__c = IIL.UnifiedRecordId__c INNER JOIN EmailEngagement__dlm EE on IIL.SourceRecordId__c = ' +
-                        'EE.IndividualId__c where UI.Id__c = \'' + unifiedIndividualId + '\'' + 
+        String query5 = '{' + '"sql"' + ':' + '"select UI.ssot__Id__c as UnifiedId,EE.ssot__EngagementChannelId__c as EngagementChannel,EE.ssot__EngagementChannelActionId__c as EngagementEvent,EE.ssot__EngagementDateTm__c as EngagementTime, EE.ssot__SubjectLineTxt__c as ' + 
+                        'EmailSubjectLine from UnifiedIndividual__dlm UI INNER JOIN IndividualIdentityLink__dlm IIL on UI.ssot__Id__c = IIL.UnifiedRecordId__c INNER JOIN ssot__EmailEngagement__dlm EE on IIL.SourceRecordId__c = ' +
+                        'EE.ssot__IndividualId__c where UI.ssot__Id__c = \'' + unifiedIndividualId + '\'' + 
                         ' Order by 4 DESC' +
                         '"}';  
         Http h5 = new Http();
@@ -178,9 +178,9 @@ public with sharing class UnifiedContactIdentityKeysController {
         //3. EmailEngagement -End                        
         //Engagement Model -End
         //SegmentMembership -Start
-        String query6 = '{' + '"sql"' + ':' + '"select DISTINCT UI.Id__c,SM.segmentname__c from UnifiedIndividual__dlm UI  ' + 
-                        'INNER JOIN IndividualIdentityLink__dlm IIL on UI.Id__c = IIL.UnifiedRecordId__c INNER JOIN Segment_Membership__dlm SM ' + 
-                        'on IIL.SourceRecordId__c = SM.subscriberkey__c where UI.Id__c = \'' + unifiedIndividualId + '\'' + 
+        String query6 = '{' + '"sql"' + ':' + '"select DISTINCT UI.ssot__Id__c,SM.segmentname__c from UnifiedIndividual__dlm UI  ' + 
+                        'INNER JOIN IndividualIdentityLink__dlm IIL on UI.ssot__Id__c = IIL.UnifiedRecordId__c INNER JOIN Segment_Membership__dlm SM ' + 
+                        'on IIL.SourceRecordId__c = SM.subscriberkey__c where UI.ssot__Id__c = \'' + unifiedIndividualId + '\'' + 
                         '"}';  
         Http h6 = new Http();
         HttpRequest req6 = new HttpRequest(); 
@@ -221,7 +221,9 @@ public with sharing class UnifiedContactIdentityKeysController {
         System.debug(LoggingLevel.DEBUG, '>>> address output ' + res.getBody()); 
 
         try{
-            unifiedIndKeysAttrs = (UnifiedIndividualAddressParser) JSON.deserialize(res.getBody().replaceAll('__c',''),UnifiedIndividualAddressParser.class); 
+            String tempData1 = res.getBody().replaceAll('__c','');
+            String tempData2 = tempData1.replaceAll('ssot__','');            
+            unifiedIndKeysAttrs = (UnifiedIndividualAddressParser) JSON.deserialize(tempData2,UnifiedIndividualAddressParser.class); 
         }catch(Exception ex) {
             errorFlag = true;
             System.debug(LoggingLevel.ERROR, '---> Error ' + ex.getMessage());
@@ -282,7 +284,10 @@ public with sharing class UnifiedContactIdentityKeysController {
     }
 
     private static void SalesOrderDML(String res) {
-        RecentSalesOrders salesOrders = (RecentSalesOrders) JSON.deserialize(res.replaceAll('__c',''),RecentSalesOrders.class);
+        System.debug(LoggingLevel.DEBUG, '---> SalesOrder Response ' + res);
+        String tempData1 = res.replaceAll('__c','');
+        String tempData2 = tempData1.replaceAll('ssot__','');        
+        RecentSalesOrders salesOrders = (RecentSalesOrders) JSON.deserialize(tempData2,RecentSalesOrders.class);
         List<RecentSalesOrders.Data> keys = salesOrders.data;
         List<C360_Recent_Sales_Order__c> salesOrdersList = new List<C360_Recent_Sales_Order__c>();
         for(RecentSalesOrders.Data key : keys) {
@@ -306,8 +311,9 @@ public with sharing class UnifiedContactIdentityKeysController {
 
 
     private static void SegmentMembershipDML(String res) {
-        
-        UnifiedSegmentParser segmentMembership = (UnifiedSegmentParser) JSON.deserialize(res.replaceAll('__c',''),UnifiedSegmentParser.class);
+        String tempData1 = res.replaceAll('__c','');
+        String tempData2 = tempData1.replaceAll('ssot__','');        
+        UnifiedSegmentParser segmentMembership = (UnifiedSegmentParser) JSON.deserialize(tempData2,UnifiedSegmentParser.class);
 
         List<UnifiedSegmentParser.Data> keys = segmentMembership.Data;
         List<C360_Segment_Membership__c> segmentMembershipList = new List<C360_Segment_Membership__c>();
@@ -335,7 +341,10 @@ public with sharing class UnifiedContactIdentityKeysController {
     }
     
     private static void WebEngagementDML(String res) {
-        WebEngagementWrapper webEngagement = (WebEngagementWrapper) JSON.deserialize(res.replaceAll('__c',''),WebEngagementWrapper.class);
+        System.debug(LoggingLevel.DEBUG, '---> WebEngagementDML Response ' + res);
+        String tempData1 = res.replaceAll('__c','');
+        String tempData2 = tempData1.replaceAll('ssot__','');        
+        WebEngagementWrapper webEngagement = (WebEngagementWrapper) JSON.deserialize(tempData2,WebEngagementWrapper.class);
         List<WebEngagementWrapper.Data> keys = webEngagement.data;
         if(keys.size() < 1) {
             System.debug(LoggingLevel.DEBUG, '---> No web engagement records.');            
@@ -399,7 +408,10 @@ public with sharing class UnifiedContactIdentityKeysController {
         }                        
     }
     public static void MobileEngagementDML(String res) {
-        DeviceEngagementWrapper deviceEngagement = (DeviceEngagementWrapper) JSON.deserialize(res.replaceAll('__c',''),DeviceEngagementWrapper.class);
+        System.debug(LoggingLevel.DEBUG, '---> WebEngagementDML Response ' + res);
+        String tempData1 = res.replaceAll('__c','');
+        String tempData2 = tempData1.replaceAll('ssot__','');        
+        DeviceEngagementWrapper deviceEngagement = (DeviceEngagementWrapper) JSON.deserialize(tempData2,DeviceEngagementWrapper.class);
 
         List<DeviceEngagementWrapper.Data> keys = deviceEngagement.Data;
         if(keys.size() < 1) {
@@ -441,7 +453,10 @@ public with sharing class UnifiedContactIdentityKeysController {
         }                
     }
     public static void EmailEngagementDML(String res) {
-        EmailEngagementWrapper emailEngagement = (EmailEngagementWrapper) JSON.deserialize(res.replaceAll('__c',''),EmailEngagementWrapper.class);
+        System.debug(LoggingLevel.DEBUG, '---> WebEngagementDML Response ' + res);
+        String tempData1 = res.replaceAll('__c','');
+        String tempData2 = tempData1.replaceAll('ssot__','');        
+        EmailEngagementWrapper emailEngagement = (EmailEngagementWrapper) JSON.deserialize(tempData2,EmailEngagementWrapper.class);
 
         List<EmailEngagementWrapper.Data> keys = emailEngagement.Data;
         if(keys.size() < 1) {
@@ -483,30 +498,32 @@ public with sharing class UnifiedContactIdentityKeysController {
     }
     private static void deleteDMLController() {
 
-        //delete LTV -End
+        Id deletedOwnerId = UserInfo.getUserId();
+
         //delete sales orders -Start        
-        List<C360_Recent_Sales_Order__c> salesOrderRecords = [SELECT Id from C360_Recent_Sales_Order__c];  
+        List<C360_Recent_Sales_Order__c> salesOrderRecords = [SELECT Id from C360_Recent_Sales_Order__c WHERE OwnerId = :deletedOwnerId];  
         if(salesOrderRecords.size() > 0) {
             Database.DeleteResult[] drList1 = Database.delete(salesOrderRecords, true);
         }        
         //delete sales orders -End
         //delete engagement -Start
-        List<C360_Engagement_Timeline__c> engagementRecords = [SELECT Id FROM C360_Engagement_Timeline__c];
+        List<C360_Engagement_Timeline__c> engagementRecords = [SELECT Id FROM C360_Engagement_Timeline__c WHERE OwnerId = :deletedOwnerId];
         if(engagementRecords.size() > 0) {
             Database.DeleteResult[] drList2 = Database.delete(engagementRecords, true);
         }
         //delete engagement -End
         //delete segmentmembership -Start
-        List<C360_Segment_Membership__c> segmentRecords = [SELECT Id FROM C360_Segment_Membership__c];
+        List<C360_Segment_Membership__c> segmentRecords = [SELECT Id FROM C360_Segment_Membership__c WHERE OwnerId = :deletedOwnerId];
         if(segmentRecords.size() > 0) {
             Database.DeleteResult[] drList3 = Database.delete(segmentRecords, true);
         }        
         //delete segmentmembership -End
         //delete LTV -Start
-        List<C360_LTV__c> ltvRecords = [SELECT Id from C360_LTV__c];        
+        List<C360_LTV__c> ltvRecords = [SELECT Id from C360_LTV__c WHERE OwnerId = :deletedOwnerId];        
         if(ltvRecords.size() > 0) {
             Database.DeleteResult[] drList4 = Database.delete(ltvRecords, true);
-        }                        
+        }
+        //delete LTV -End                                
     }
     private static void mainDMLController(Map<String, String> objectValues) {
         //Call all Deletes

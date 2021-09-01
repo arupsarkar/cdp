@@ -67,16 +67,54 @@
     </div>
 
     <div class="c-container">
+        <template if:false={refresh}>
+            <lightning-layout>
+                <div class="slds-var-p-left_small">                
+                    <lightning-layout-item size="12" padding="around-small"> 
+                        <lightning-card variant="Narrow"  title="Fetching CDP Data, please be patient">
+                            <lightning-formatted-text
+                                value="All the CDP components are fetched asynchronously from CDP backend, as each components return data "                        
+                            >
+                            </lightning-formatted-text>
+                            <lightning-formatted-text
+                                value="salesforce objects get populated, queried and displayed here. Since it takes time, during demo please pre load this page. "                        
+                            >
+                            </lightning-formatted-text>
+                            <p>
+                                This card will automatically dissappear once data fetching is over.
+                            </p>                        
+                        </lightning-card>
+                    </lightning-layout-item>
+                </div> 
+            </lightning-layout>
+        </template>
+
         <lightning-layout>
+
             <lightning-layout-item size="5" padding="around-small">                
                 <lightning-card variant="Narrow"  title="Lifetime Value" icon-name="custom:custom66">
                     <div class="slds-scrollable" style="height:10rem;width:rem">
-                                <div class="slds-p-left_xxx-small slds-p-top_large">
+                        <template if:false={refresh}>
+                            <div class="slds-var-p-left_small">
+                                <lightning-layout-item padding="around-small">
+                                    <lightning-dynamic-icon 
+                                        type="eq" 
+                                        alternative-text="eq intelligence">
+                                    </lightning-dynamic-icon>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small">
+                                    <p>Please be patient, fetching LTV data</p>
+                                </lightning-layout-item>
+                            </div>
+
+                        </template>
+                        <template if:true={refresh}>
+                                <div class="slds-var-p-left_xxx-small slds-var-p-top_large">
                                 <lightning-layout>
                                     <lightning-layout-item>
                                         <div class="header-column">
                                             <p class="field-title-1" title="Lifetime Spend">Lifetime Spend</p>
-                                            <div class="slds-p-top_medium">
+                                            <div class="slds-var-p-top_medium">
                                                 <p><lightning-formatted-number class="field-ltv" value={LifeTimeSpend} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
                                             </div>
                                             
@@ -86,14 +124,14 @@
                                     <lightning-layout-item>
                                         <div class="header-column">
                                             <p class="field-title-1" title="Lifetime Orders">Lifetime Orders</p>
-                                            <p class="field-ltv slds-p-top_medium">{LifeTimeOrders}</p>
+                                            <p class="field-ltv slds-var-p-top_medium">{LifeTimeOrders}</p>
                                         </div>                            
                                     </lightning-layout-item>
             
                                     <lightning-layout-item>
                                         <div class="header-column">
                                             <p class="field-title-1" title="Avg Order Amount">Avg Order Amount</p>
-                                            <div class="slds-p-top_medium">
+                                            <div class="slds-var-p-top_medium">
                                                 <p><lightning-formatted-number class="field-ltv" value={AvgOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
                                             </div>
                                             
@@ -103,7 +141,7 @@
                                     <lightning-layout-item>
                                         <div class="header-column">
                                             <p class="field-title-1" title="Lifetime Orders">Highest Order Amount</p>
-                                            <div class="slds-p-top_medium">
+                                            <div class="slds-var-p-top_medium">
                                                 <p><lightning-formatted-number class="field-ltv" value={HighestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
                                             </div>
                                         </div>                            
@@ -112,7 +150,7 @@
                                     <lightning-layout-item>
                                         <div class="header-column">
                                             <p class="field-title-1" title="Lifetime Orders">Lowest Order Amount</p>
-                                            <div class="slds-p-top_medium">
+                                            <div class="slds-var-p-top_medium">
                                                 <p><lightning-formatted-number class="field-ltv" value={LowestOrderAmount} format-style="currency" currency-code="USD"></lightning-formatted-number></p>
                                             </div>
                                             
@@ -121,6 +159,7 @@
         
                                 </lightning-layout>                    
                             </div>
+                        </template>
                     </div>
 
 
@@ -231,11 +270,12 @@
                         </lightning-layout>                    
                     </div>                    
                 </lightning-card>
-            </lightning-layout-item>                        
+            </lightning-layout-item>
         </lightning-layout>
 
     </div>
 
+    <!-- Commenting out to fix the queries -->
     <div class="c-container">
         <lightning-layout>
             
